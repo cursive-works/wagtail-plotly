@@ -1,0 +1,4 @@
+plotly>=4.14.3
+wagtail>=2.8.1
+wagtail-color-panel>=1.2.0
+wagtail-generic-chooser>=0.1.1

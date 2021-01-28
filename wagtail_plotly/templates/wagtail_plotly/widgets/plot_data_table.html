@@ -1,0 +1,5 @@
+{% with widget.attrs.id as widget_id %}
+<div id="{{ widget_id }}-handsontable-container" class="plot-data-table"></div>
+{% include 'django/forms/widgets/hidden.html' %}
+<script>initPlotDataTable("{{ widget_id|escapejs }}", {{ widget.table_options_json|safe }});</script>
+{% endwith %}

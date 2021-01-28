@@ -1,2 +1,3 @@
 # wagtail-plotly
-Plotly for Wagtail CMS
+
+Create charts in Wagtail using Plotly. This is work in progress!

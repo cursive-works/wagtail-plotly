@@ -1,0 +1,6 @@
+/* https://github.com/handsontable/handsontable/issues/2494 */
+
+.plot-data-table {
+    position: relative;
+    z-index: 0;
+}
