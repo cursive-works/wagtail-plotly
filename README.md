@@ -123,7 +123,7 @@ A scatter plot `Plot data` is structured with separate X and Y value pairs (X0, 
 
 ### Pie chart
 
-This is the most simple table layout, and does not include headers.
+This is the most simple table layout, and does not include headers. The `Name` column is the label for each pie slice, and `Data` the size of the slice.
 
 | **Name** | **Data** |
 |----------|:--------:|
