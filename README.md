@@ -2,6 +2,9 @@
 
 Create charts in Wagtail using Plotly. This is work in progress, so expect breaking changes!
 
+![Line plot](docs/img/lineplot.png)
+[Some more examples](docs/examples.md)
+
 ## Installation
 
 This has not been released to pypi yet, so the easiest way to try it out is to add the following to your requirements.txt:
