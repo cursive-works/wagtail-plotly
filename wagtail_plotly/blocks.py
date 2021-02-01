@@ -2,8 +2,6 @@ import json
 
 import plotly.graph_objects as go
 
-from itertools import cycle
-
 from django import forms
 from django.template.loader import render_to_string
 from django.utils.functional import cached_property
@@ -26,20 +24,6 @@ PLOT_FILL_CHOICES = [
     ('toself', 'To self'),
     ('tonext', 'To next'),
 ]
-
-DEFAULT_CHART_COLOURS = [
-    '#2f4b7c',
-    '#00629b',
-    '#3c77ab',
-    '#665191',
-    '#a05195',
-    '#d45087',
-    '#f95d6a',
-    '#ff7c43',
-    '#ffa600',
-]
-
-DEFAULT_CHART_COLOURS.reverse()
 
 DEFAULT_TABLE_OPTIONS = {
     'minSpareRows': 0,
@@ -64,7 +48,7 @@ DEFAULT_TABLE_OPTIONS = {
         'redo',
         '---------',
         'copy',
-        'cut'
+        'cut',
     ],
     'editor': 'text',
     'stretchH': 'all',
@@ -74,40 +58,54 @@ DEFAULT_TABLE_OPTIONS = {
 }
 
 SCATTER_TABLE_OPTIONS = DEFAULT_TABLE_OPTIONS.copy()
-SCATTER_TABLE_OPTIONS.update({
-    'plotType': 'scatter',
-})
+SCATTER_TABLE_OPTIONS.update(
+    {
+        'plotType': 'scatter',
+    }
+)
 
 LINE_TABLE_OPTIONS = DEFAULT_TABLE_OPTIONS.copy()
-LINE_TABLE_OPTIONS.update({
-    'plotType': 'line',
-})
+LINE_TABLE_OPTIONS.update(
+    {
+        'plotType': 'line',
+    }
+)
 
 BAR_TABLE_OPTIONS = DEFAULT_TABLE_OPTIONS.copy()
-BAR_TABLE_OPTIONS.update({
-    'plotType': 'bar',
-})
+BAR_TABLE_OPTIONS.update(
+    {
+        'plotType': 'bar',
+    }
+)
 
 PIE_TABLE_OPTIONS = DEFAULT_TABLE_OPTIONS.copy()
-PIE_TABLE_OPTIONS.update({
-    'plotType': 'pie',
-    'colHeaders': ['Name', 'Data'],
-    'rowHeaders': False,
-    'startCols': 2,
-    'contextMenu': [
-        'row_above',
-        'row_below',
-        '---------',
-        'remove_row',
-        '---------',
-        'undo',
-        'redo',
-        '---------',
-        'copy',
-        'cut',
-    ],
-})
+PIE_TABLE_OPTIONS.update(
+    {
+        'plotType': 'pie',
+        'colHeaders': ['Name', 'Data'],
+        'rowHeaders': False,
+        'startCols': 2,
+        'contextMenu': [
+            'row_above',
+            'row_below',
+            '---------',
+            'remove_row',
+            '---------',
+            'undo',
+            'redo',
+            '---------',
+            'copy',
+            'cut',
+        ],
+    }
+)
 
+CONTOUR_TABLE_OPTIONS = DEFAULT_TABLE_OPTIONS.copy()
+CONTOUR_TABLE_OPTIONS.update(
+    {
+        'plotType': 'contour',
+    }
+)
 
 DEFAULT_CHART_LAYOUT = {
     'autosize': True,
@@ -120,12 +118,7 @@ DEFAULT_CHART_LAYOUT = {
     'font': {
         'size': 13,
     },
-    'margin': {
-        't': 80,
-        'b': 20,
-        'l': 20,
-        'r': 20
-    },
+    'margin': {'t': 80, 'b': 20, 'l': 20, 'r': 20},
     'hoverlabel': {
         'bgcolor': 'white',
         'font': {
@@ -149,16 +142,14 @@ DEFAULT_CHART_LAYOUT = {
         'linecolor': '#aaaaaa',
         'mirror': True,
         'zeroline': False,
-    }
+    },
 }
 
-DEFAULT_CHART_CONFIG = {
-    'showlegend': True,
-}
+DEFAULT_CHART_CONFIG = {}
 
 
 class PlotTableInput(forms.HiddenInput):
-    template_name = "wagtail_plotly/widgets/plot_data_table.html"
+    template_name = 'wagtail_plotly/widgets/plot_data_table.html'
 
     def __init__(self, table_options=None, attrs=None):
         self.table_options = table_options
@@ -171,7 +162,6 @@ class PlotTableInput(forms.HiddenInput):
 
 
 class PaletteChooserBlock(blocks.ChooserBlock):
-
     @cached_property
     def target_model(self):
         return PaletteChooser.model
@@ -182,7 +172,6 @@ class PaletteChooserBlock(blocks.ChooserBlock):
 
 
 class LayoutChooserBlock(blocks.ChooserBlock):
-
     @cached_property
     def target_model(self):
         return LayoutChooser.model
@@ -193,7 +182,6 @@ class LayoutChooserBlock(blocks.ChooserBlock):
 
 
 class PlotDataBlock(TableBlock):
-
     @cached_property
     def field(self):
         return forms.CharField(
@@ -208,7 +196,7 @@ class PlotDataBlock(TableBlock):
         template = getattr(self.meta, 'template', None)
 
         if not template or not value:
-            return self.render_basic(value or "", context=context)
+            return self.render_basic(value or '', context=context)
 
         new_context = {} if context is None else dict(context)
         new_context.update({'self': value})
@@ -217,12 +205,14 @@ class PlotDataBlock(TableBlock):
     @property
     def media(self):
         return super().media + forms.Media(
-            css={'all': [
-                versioned_static('wagtail_plotly/css/plot_data_table.css'),
-            ]},
+            css={
+                'all': [
+                    versioned_static('wagtail_plotly/css/plot_data_table.css'),
+                ]
+            },
             js=[
                 versioned_static('wagtail_plotly/js/plot_data_table.js'),
-            ]
+            ],
         )
 
 
@@ -236,7 +226,7 @@ class BasePlotBlock(blocks.StructBlock):
 
     def __init__(self, layout_options=None, config_options=None, **kwargs):
         self.layout_options = layout_options
-        self.config_options = config_options
+        self.config_options = config_options if config_options else DEFAULT_CHART_CONFIG
         super().__init__(**kwargs)
 
     def get_columns(self, plot_data):
@@ -262,7 +252,7 @@ class BasePlotBlock(blocks.StructBlock):
         fig.update_layout(
             title=value.get('title', ''),
             xaxis_title=value.get('xaxis_title', ''),
-            yaxis_title=value.get('yaxis_title', '')
+            yaxis_title=value.get('yaxis_title', ''),
         )
         return fig
 
@@ -271,13 +261,15 @@ class BasePlotBlock(blocks.StructBlock):
         Generate the markup for the plot
         """
         # TODO: Make the plotlyjs configurable
-        return mark_safe(fig.to_html(
-            full_html=False,
-            include_plotlyjs='https://cdn.plot.ly/plotly-1.58.4.min.js',
-            config={
-                'displayModeBar': False,
-            }
-        ))
+        return mark_safe(
+            fig.to_html(
+                full_html=False,
+                include_plotlyjs='https://cdn.plot.ly/plotly-1.58.4.min.js',
+                config={
+                    'displayModeBar': False,
+                },
+            )
+        )
 
     def build_data(self, value):
         raise NotImplementedError('To be implemented in child class')
@@ -299,11 +291,15 @@ class BasePlotBlock(blocks.StructBlock):
         template = getattr(self.meta, 'template', None)
 
         if not template or not value:
-            return self.render_basic(value or "", context=context)
+            return self.render_basic(value or '', context=context)
 
         data = self.build_data(value)
 
-        layout = go.Layout(**self.layout_options) if self.layout_options else go.Layout(**DEFAULT_CHART_LAYOUT)
+        layout = (
+            go.Layout(**self.layout_options)
+            if self.layout_options
+            else go.Layout(**DEFAULT_CHART_LAYOUT)
+        )
 
         fig = self.build_figure(data, layout, value)
 
@@ -326,6 +322,7 @@ class LinePlotBlock(BasePlotBlock):
     """
     Basic line plot with common x axis values
     """
+
     mode = blocks.ChoiceBlock(
         default='lines',
         choices=[
@@ -351,7 +348,7 @@ class LinePlotBlock(BasePlotBlock):
         help_text=(
             'Line plot data with a set of common X values and multiple sets of Y values. '
             'First row contains Name(s) for legend.'
-        )
+        ),
     )
 
     def build_data(self, value):
@@ -373,12 +370,12 @@ class LinePlotBlock(BasePlotBlock):
                         name=column[0],
                         x=x[1:],
                         y=column[1:],
-                        **DEFAULT_CHART_CONFIG,
                         mode=value['mode'],
                         line_shape=value['line_shape'],
                         line_width=value['line_width'],
                         marker_size=value['marker_size'],
                         fill=value['fill'],
+                        **self.config_options,
                     )
                 )
 
@@ -389,6 +386,7 @@ class ScatterPlotBlock(BasePlotBlock):
     """
     Scatter plot
     """
+
     mode = blocks.ChoiceBlock(
         default='markers',
         choices=[
@@ -414,11 +412,11 @@ class ScatterPlotBlock(BasePlotBlock):
         help_text=(
             'Scatter plot data with multiple sets of X and Y values (X0, Y0), (X1, Y1) etc. '
             'First row contains Name(s) for legend.'
-        )
+        ),
     )
 
     def grouped(self, iterable, n):
-        return zip(*[iter(iterable)]*n)
+        return zip(*[iter(iterable)] * n)
 
     def build_data(self, value):
         """
@@ -430,8 +428,6 @@ class ScatterPlotBlock(BasePlotBlock):
         columns = self.get_columns(value['plot_data'])
 
         groups = list(self.grouped(columns, 2))
-
-        config = self.config_options if self.config_options else DEFAULT_CHART_CONFIG
 
         if len(groups) >= 1:
             for group in groups:
@@ -445,7 +441,7 @@ class ScatterPlotBlock(BasePlotBlock):
                         line_width=value['line_width'],
                         marker_size=value['marker_size'],
                         fill=value['fill'],
-                        **config,
+                        **self.config_options,
                     )
                 )
 
@@ -465,7 +461,7 @@ class BarPlotBlock(BasePlotBlock):
         help_text=(
             'Bar plot data with a set of common X values and multiple sets of Y values. '
             'First row contains Name(s) for legend.'
-        )
+        ),
     )
 
     def build_data(self, value):
@@ -487,7 +483,7 @@ class BarPlotBlock(BasePlotBlock):
                         name=column[0],
                         x=x[1:],
                         y=column[1:],
-                        **DEFAULT_CHART_CONFIG,
+                        **self.config_options,
                     )
                 )
 
@@ -499,9 +495,7 @@ class BarPlotBlock(BasePlotBlock):
         """
         super().update_layout(fig, value)
 
-        fig.update_layout(
-            barmode='stack' if value['stacked'] else 'group'
-        )
+        fig.update_layout(barmode='stack' if value['stacked'] else 'group')
 
 
 class PiePlotBlock(BasePlotBlock):
@@ -537,11 +531,83 @@ class PiePlotBlock(BasePlotBlock):
                 go.Pie(
                     labels=labels,
                     values=values,
-                    **DEFAULT_CHART_CONFIG,
                     hole=0.35 if value['donut'] else 0,
                     marker_line_color='white',
                     marker_line_width=1,
+                    **self.config_options,
                 )
             ]
+
+        return data
+
+
+class ContourPlotBlock(BasePlotBlock):
+
+    plot_data = PlotDataBlock(
+        table_options=CONTOUR_TABLE_OPTIONS,
+        help_text=(
+            'Contour plot data with X and Y dimensions, with a grid of values representing Z'
+        ),
+    )
+
+    # TODO: Write some tests for this
+    def rstrip(self, row):
+        """
+        Remove empty and None values from the end of a row of data
+        """
+        count = 0
+
+        for v in reversed(row):
+            if v or v == 0:
+                break
+            count += 1
+
+        if count > 0:
+            return row[:-count]
+
+        return row
+
+    # TODO: Write some tests for this
+    def extract_values(self, plot_data):
+        """
+        Extract x, y and z values from plot data table values
+        """
+        x = []
+        y = []
+        z = []
+
+        for i, row in enumerate(plot_data):
+            if i == 0:
+                x = self.rstrip(row[1:])
+            else:
+                row_values = self.rstrip(row[1:])
+
+                if row_values:
+                    y.append(row[0])
+                    z.append(row_values)
+
+        y = self.rstrip(y)
+
+        return x, y, z
+
+    def build_data(self, value):
+        """
+        Build contour plot data
+        """
+        plot_data = value['plot_data']
+
+        if not plot_data:
+            return []
+
+        x, y, z = self.extract_values(plot_data)
+
+        data = [
+            go.Contour(
+                x=x,
+                y=y,
+                z=z,
+                **self.config_options,
+            )
+        ]
 
         return data
