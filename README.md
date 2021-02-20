@@ -29,17 +29,19 @@ Then add the following to your project's `INSTALLED_APPS`.
 ```python
 from wagtail.core import blocks
 
-from wagtail_plotly.blocks import (
-    BarPlotBlock,
+from wagtail_plotly.blocks.plot import (
+    BarChartBlock,
+    ContourPlotBlock,
     LinePlotBlock,
-    PiePlotBlock,
+    PieChartBlock,
     ScatterPlotBlock,
 )
 
 class MyStreamBlock(blocks.StreamBlock):
+    bar_chart = BarChartBlock()
+    contour_plot = ContourPlotBlock()
     line_plot = LinePlotBlock()
-    bar_plot = BarPlotBlock()
-    pie_plot = PiePlotBlock()
+    pie_chart = PieChartBlock()
     scatter_plot = ScatterPlotBlock()
 ```
 
@@ -69,6 +71,20 @@ Then in the page template:
 {% include_block page.body %}
 ```
 
+## Data input format
+
+More information about each plot type and input data format can be found in the [docs](docs/plots.md)
+
+## Build your own
+
+The plots in `wagtail-plotly` is based around a set of base block classes, that can be extended to create your own plots. The intention is to allow custom layouts and trace config whilst handling the data input. The base classes are:
+
+* BaseBarChartBlock
+* BaseContourPlotBlock
+* BaseLinePlotBlock
+* BasePieChartBlock
+* BaseScatterPlotBlock
+
 ## Admin interface
 
 `wagtail-plotly` is installed as a separate items in the Wagtail admin menu. It currently only has two options, Palettes and Layouts.
@@ -82,56 +98,3 @@ Then in the page template:
 Layouts control the look, style and positioning of the `wagtail-plotly` plot elements. There are settings for controlling title layout, fonts, legends and margins. More fields need adding to cover all of Plotly's layout options...more will be added.
 
 In the interface for each plot block, it is possible to select a `Layout`
-
-## Plot blocks
-
-There are currently 4 plot blocks available:
-
-* BarPlotBlock
-* LinePlotBlock
-* PiePlotBlock
-* ScatterPlotBlock
-
-Each plot block has a number of fields appropriate to its type. All of the blocks have a `Plot data` field. This is based on the `wagtail.contrib.table_block`.
-
-### Line and bar plots
-
-The data for each plot has to be entered in the table in a specific way, so it can be interpreted correctly. The column and row headers for the `Plot data` table have labels to help with this. For example, to create a plot that tracked the rainfall each month for a range of years, the table might look something like the following:
-
-|          | X       | Y0     | Y1     | Y2     | ...Yn  |
-|----------|:-------:|:------:|:------:|:------:|:------:|
-| **Name** | `Month` | `2018` | `2019` | `2020` |        |
-| **D0**   | Jan     | 3      | 1      | 2.3    |        |
-| **D1**   | Feb     | 4.3    | 2.2    | 2      |        |
-| **D2**   | Mar     | 5      | 7.9    | 6      |        |
-| **D3**   | Apr     | 7      | 8      | 7.2    |        |
-| **...**  |         |        |        |        |        |
-| **Dn**   |         |        |        |        |        |
-
-With `line` and `bar` plots, the first X column is common. In this instance, D0 to D3 holds the month name. The first row of the table is special in that it holds the names of the data columns. These are used to label the plot traces and legends.
-
-### Scatter plot
-
-A scatter plot `Plot data` is structured with separate X and Y value pairs (X0, Y0), (X1,Y1) etc.
-
-|          | X0          | Y0     | X1       | Y1     |...Xn     | ...Yn  |
-|----------|:-----------:|:------:|:--------:|:------:|:--------:|:------:|
-| **Name** | `Predicted` | -      | `Actual` | -      |          |        |
-| **D0**   | 11          | 3      | 10       | 2.3    |          |        |
-| **D1**   | 15          | 4.3    | 16       | 2      |          |        |
-| **D2**   | 22          | 5      | 24       | 6      |          |        |
-| **D3**   | 19          | 7      | 22       | 7.2    |          |        |
-| **...**  |             |        |          |        |          |        |
-| **Dn**   |             |        |          |        |          |        |
-
-### Pie chart
-
-This is the most simple table layout, and does not include headers. The `Name` column is the label for each pie slice, and `Data` the size of the slice.
-
-| **Name** | **Data** |
-|----------|:--------:|
-| Jan      | 3        |
-| Feb      | 4.3      |
-| Mar      | 5        |
-| Apr      | 7        |
-| ...      |          |
