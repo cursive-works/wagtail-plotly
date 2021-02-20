@@ -1,4 +1,3 @@
-
 # Example plots
 
 ## Line plot
