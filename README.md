@@ -81,6 +81,7 @@ The plots in `wagtail-plotly` is based around a set of base block classes, that 
 
 * BaseBarChartBlock
 * BaseContourPlotBlock
+* BaseHeatmapPlotBlock
 * BaseLinePlotBlock
 * BasePieChartBlock
 * BaseScatterPlotBlock

@@ -144,10 +144,15 @@ class ContourPlotBlock(BaseContourPlotBlock):
         help_text='Sets the colorscale',
     )
 
+    reversescale = blocks.BooleanBlock(
+        required=False,
+        help_text='Reverse the colorscale',
+    )
+
     layout = LayoutChooserBlock(required=False)
 
     def get_trace_fields(self):
-        return ['colorscale']
+        return ['colorscale', 'reversescale']
 
 
 class HeatmapPlotBlock(BaseHeatmapPlotBlock):
@@ -160,6 +165,11 @@ class HeatmapPlotBlock(BaseHeatmapPlotBlock):
         help_text='Sets the colorscale',
     )
 
+    reversescale = blocks.BooleanBlock(
+        required=False,
+        help_text='Reverse the colorscale',
+    )
+
     zsmooth = blocks.ChoiceBlock(
         required=False,
         choices=ZSMOOTH_CHOICES,
@@ -169,7 +179,7 @@ class HeatmapPlotBlock(BaseHeatmapPlotBlock):
     layout = LayoutChooserBlock(required=False)
 
     def get_trace_fields(self):
-        return ['colorscale', 'zsmooth']
+        return ['colorscale', 'reversescale', 'zsmooth']
 
 
 class PieChartBlock(BasePieChartBlock):
