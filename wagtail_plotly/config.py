@@ -1,4 +1,13 @@
+from django.conf import settings
 
+
+# Include specific version of plotly js from CDN.
+# See plotly documentation for other settings, .e.g 'cdn' or False
+DEFAULT_INCLUDE_PLOTLYJS = 'https://cdn.plot.ly/plotly-1.58.4.min.js'
+
+#
+# Data tables
+#
 
 DEFAULT_TABLE_OPTIONS = {
     'minSpareRows': 0,
@@ -32,29 +41,32 @@ DEFAULT_TABLE_OPTIONS = {
     'autoColumnSize': False,
 }
 
-SCATTER_TABLE_OPTIONS = DEFAULT_TABLE_OPTIONS.copy()
-SCATTER_TABLE_OPTIONS.update(
-    {
-        'plotType': 'scatter',
-    }
-)
 
-LINE_TABLE_OPTIONS = DEFAULT_TABLE_OPTIONS.copy()
-LINE_TABLE_OPTIONS.update(
-    {
-        'plotType': 'line',
-    }
-)
-
-BAR_TABLE_OPTIONS = DEFAULT_TABLE_OPTIONS.copy()
-BAR_TABLE_OPTIONS.update(
+DEFAULT_BAR_TABLE_OPTIONS = DEFAULT_TABLE_OPTIONS.copy()
+DEFAULT_BAR_TABLE_OPTIONS.update(
     {
         'plotType': 'bar',
     }
 )
 
-PIE_TABLE_OPTIONS = DEFAULT_TABLE_OPTIONS.copy()
-PIE_TABLE_OPTIONS.update(
+
+DEFAULT_CONTOUR_TABLE_OPTIONS = DEFAULT_TABLE_OPTIONS.copy()
+DEFAULT_CONTOUR_TABLE_OPTIONS.update(
+    {
+        'plotType': 'contour',
+    }
+)
+
+
+DEFAULT_LINE_TABLE_OPTIONS = DEFAULT_TABLE_OPTIONS.copy()
+DEFAULT_LINE_TABLE_OPTIONS.update(
+    {
+        'plotType': 'line',
+    }
+)
+
+DEFAULT_PIE_TABLE_OPTIONS = DEFAULT_TABLE_OPTIONS.copy()
+DEFAULT_PIE_TABLE_OPTIONS.update(
     {
         'plotType': 'pie',
         'colHeaders': ['Name', 'Data'],
@@ -75,14 +87,23 @@ PIE_TABLE_OPTIONS.update(
     }
 )
 
-CONTOUR_TABLE_OPTIONS = DEFAULT_TABLE_OPTIONS.copy()
-CONTOUR_TABLE_OPTIONS.update(
+
+DEFAULT_SCATTER_TABLE_OPTIONS = DEFAULT_TABLE_OPTIONS.copy()
+DEFAULT_SCATTER_TABLE_OPTIONS.update(
     {
-        'plotType': 'contour',
+        'plotType': 'scatter',
     }
 )
 
-DEFAULT_CHART_LAYOUT = {
+#
+# Plot settings, config, layout and traces
+#
+
+DEFAULT_CONFIG_OPTIONS = {
+    'displayModeBar': False,
+}
+
+DEFAULT_LAYOUT_OPTIONS = {
     'autosize': True,
     'legend': {
         'orientation': 'h',
@@ -120,4 +141,22 @@ DEFAULT_CHART_LAYOUT = {
     },
 }
 
-DEFAULT_CHART_CONFIG = {}
+DEFAULT_TRACE_OPTIONS = {}
+
+
+# Plotly js settings
+INCLUDE_PLOTLYJS = getattr(settings, 'WAGTAIL_PLOTLY_INCLUDE_PLOTLYJS', DEFAULT_INCLUDE_PLOTLYJS)
+
+# Data table settings
+DEFAULT_TABLE_OPTIONS = getattr(settings, 'WAGTAIL_PLOTLY_TABLE_OPTIONS', DEFAULT_TABLE_OPTIONS)
+BAR_TABLE_OPTIONS = getattr(settings, 'WAGTAIL_PLOTLY_BAR_TABLE_OPTIONS', DEFAULT_BAR_TABLE_OPTIONS)
+CONTOUR_TABLE_OPTIONS = getattr(settings, 'WAGTAIL_PLOTLY_CONTOUR_TABLE_OPTIONS', DEFAULT_CONTOUR_TABLE_OPTIONS)
+LINE_TABLE_OPTIONS = getattr(settings, 'WAGTAIL_PLOTLY_LINE_TABLE_OPTIONS', DEFAULT_LINE_TABLE_OPTIONS)
+PIE_TABLE_OPTIONS = getattr(settings, 'WAGTAIL_PLOTLY_PIE_TABLE_OPTIONS', DEFAULT_PIE_TABLE_OPTIONS)
+SCATTER_TABLE_OPTIONS = getattr(settings, 'WAGTAIL_PLOTLY_SCATTER_TABLE_OPTIONS', DEFAULT_SCATTER_TABLE_OPTIONS)
+
+
+# Plot settings
+CONFIG_OPTIONS = getattr(settings, 'WAGTAIL_PLOTLY_CONFIG_OPTIONS', DEFAULT_CONFIG_OPTIONS)
+LAYOUT_OPTIONS = getattr(settings, 'WAGTAIL_PLOTLY_LAYOUT_OPTIONS', DEFAULT_LAYOUT_OPTIONS)
+TRACE_OPTIONS = getattr(settings, 'WAGTAIL_PLOTLY_TRACE_OPTIONS', DEFAULT_TRACE_OPTIONS)
