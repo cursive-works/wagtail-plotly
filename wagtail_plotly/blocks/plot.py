@@ -7,6 +7,7 @@ from wagtail_color_panel.blocks import NativeColorBlock
 from .base import (
     BaseBarChartBlock,
     BaseContourPlotBlock,
+    BaseHeatmapPlotBlock,
     BaseLinePlotBlock,
     BasePieChartBlock,
     BaseScatterPlotBlock,
@@ -62,6 +63,32 @@ BARMODE_CHOICES = [
     ('stack', _('Stack')),
 ]
 
+COLORSCALE_CHOICES = [
+    ('greys', 'Greys'),
+    ('ylgnbu', 'YlGnBu'),
+    ('greens', 'Greens'),
+    ('ylorrd', 'YlOrRd'),
+    ('bluered', 'Bluered'),
+    ('rdbu', 'RdBu'),
+    ('reds', 'Reds'),
+    ('blues', 'Blues'),
+    ('picnic', 'Picnic'),
+    ('rainbow', 'Rainbow'),
+    ('portland', 'Portland'),
+    ('jet', 'Jet'),
+    ('hot', 'Hot'),
+    ('blackbody', 'Blackbody'),
+    ('earth', 'Earth'),
+    ('electric', 'Electric'),
+    ('viridis', 'Viridis'),
+    ('cividis', 'Cividis'),
+]
+
+ZSMOOTH_CHOICES = [
+    ('fast', _('Fast')),
+    ('best', _('Best')),
+]
+
 
 class BarChartBlock(BaseBarChartBlock):
     """
@@ -73,26 +100,76 @@ class BarChartBlock(BaseBarChartBlock):
         help_text='Display as a vertical or horizontal bar chart',
     )
 
+    marker_line_color = NativeColorBlock(
+        required=False,
+        help_text='Line color for bar chart',
+    )
+
+    marker_line_width = blocks.IntegerBlock(
+        default=1,
+        min_value=0,
+        max_value=10,
+        help_text='Line width for bar chart',
+    )
+
     barmode = blocks.ChoiceBlock(
         default='group',
         choices=BARMODE_CHOICES,
         help_text='Display as a grouped or stacked bar chart',
     )
 
+    bargroupgap = blocks.FloatBlock(
+        default=0.1,
+        min_value=0,
+        max_value=0.5,
+        help_text='Gap between bars of the same location coordinate',
+    )
+
     layout = LayoutChooserBlock(required=False)
 
     def get_trace_fields(self):
-        return ['orientation']
+        return ['orientation', 'marker_line_color', 'marker_line_width']
 
     def get_layout_fields(self):
-        return ['barmode']
+        return ['barmode', 'bargroupgap']
 
 
 class ContourPlotBlock(BaseContourPlotBlock):
     """
     Basic contour plot
     """
+    colorscale = blocks.ChoiceBlock(
+        required=False,
+        choices=COLORSCALE_CHOICES,
+        help_text='Sets the colorscale',
+    )
+
     layout = LayoutChooserBlock(required=False)
+
+    def get_trace_fields(self):
+        return ['colorscale']
+
+
+class HeatmapPlotBlock(BaseHeatmapPlotBlock):
+    """
+    Basic heatmap plot
+    """
+    colorscale = blocks.ChoiceBlock(
+        required=False,
+        choices=COLORSCALE_CHOICES,
+        help_text='Sets the colorscale',
+    )
+
+    zsmooth = blocks.ChoiceBlock(
+        required=False,
+        choices=ZSMOOTH_CHOICES,
+        help_text='Picks a smoothing algorithm use to smooth z data',
+    )
+
+    layout = LayoutChooserBlock(required=False)
+
+    def get_trace_fields(self):
+        return ['colorscale', 'zsmooth']
 
 
 class PieChartBlock(BasePieChartBlock):
