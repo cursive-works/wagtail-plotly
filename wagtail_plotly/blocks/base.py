@@ -9,12 +9,14 @@ from wagtail.core import blocks
 
 from ..config import (
     BAR_TABLE_OPTIONS,
+    CONFIG_OPTIONS,
     CONTOUR_TABLE_OPTIONS,
+    INCLUDE_PLOTLYJS,
+    LAYOUT_OPTIONS,
     LINE_TABLE_OPTIONS,
     PIE_TABLE_OPTIONS,
     SCATTER_TABLE_OPTIONS,
-    DEFAULT_CHART_LAYOUT,
-    DEFAULT_CHART_CONFIG,
+    TRACE_OPTIONS,
 )
 from .table import PlotDataBlock
 
@@ -25,9 +27,11 @@ class BasePlotBlock(blocks.StructBlock):
     xaxis_title = blocks.CharBlock(required=False)
     yaxis_title = blocks.CharBlock(required=False)
 
-    def __init__(self, layout_options=None, config_options=None, **kwargs):
-        self.layout_options = copy.deepcopy(layout_options if layout_options else DEFAULT_CHART_LAYOUT)
-        self.config_options = copy.deepcopy(config_options if config_options else DEFAULT_CHART_CONFIG)
+    def __init__(self, config_options=None, layout_options=None, trace_options=None, **kwargs):
+
+        self.config_options = copy.deepcopy(config_options if config_options else CONFIG_OPTIONS)
+        self.layout_options = copy.deepcopy(layout_options if layout_options else LAYOUT_OPTIONS)
+        self.trace_options = copy.deepcopy(trace_options if trace_options else TRACE_OPTIONS)
         super().__init__(**kwargs)
 
     def get_columns(self, plot_data):
@@ -61,14 +65,11 @@ class BasePlotBlock(blocks.StructBlock):
         """
         Generate the markup for the plot
         """
-        # TODO: Make the plotlyjs configurable
         return mark_safe(
             fig.to_html(
                 full_html=False,
-                include_plotlyjs='https://cdn.plot.ly/plotly-1.58.4.min.js',
-                config={
-                    'displayModeBar': False,
-                },
+                include_plotlyjs=INCLUDE_PLOTLYJS,
+                config=self.config_options,
             )
         )
 
@@ -126,9 +127,9 @@ class BasePlotBlock(blocks.StructBlock):
 
         fig = self.build_figure(data, layout, value)
 
-        # Update traces with config options provided or default
-        if self.config_options:
-            fig.update_traces(**self.config_options)
+        # Update traces with trace options provided or default
+        if self.trace_options:
+            fig.update_traces(**self.trace_options)
 
         # Update the traces with any custom options
         self.update_traces(fig, value)
