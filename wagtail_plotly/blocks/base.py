@@ -191,6 +191,8 @@ class BaseContourPlotBlock(BasePlotBlock):
     """
     Base contour plot block
     """
+    plot_class = go.Contour
+
     plot_data = PlotDataBlock(
         table_options=CONTOUR_TABLE_OPTIONS,
         help_text=(
@@ -249,9 +251,16 @@ class BaseContourPlotBlock(BasePlotBlock):
 
         x, y, z = self.extract_values(plot_data)
 
-        data = [go.Contour(x=x, y=y, z=z)]
+        data = [self.plot_class(x=x, y=y, z=z)]
 
         return data
+
+
+class BaseHeatmapPlotBlock(BaseContourPlotBlock):
+    """
+    Base heatmap plot block
+    """
+    plot_class = go.Heatmap
 
 
 class BaseLinePlotBlock(BasePlotBlock):
