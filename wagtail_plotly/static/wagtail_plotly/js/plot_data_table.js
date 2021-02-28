@@ -66,7 +66,7 @@ function contourPlotTable(containerId, options) {
 
         if ((row === 0) && (col === 0)) {
             cellProperties.readOnly = 'true';
-            td.textContent = 'Axis (y↓ x →)';
+            td.textContent = 'Axis (x/y)';
             td.style.background = '#F4F4F4';
             td.style.textAlign = 'center';
         } else {
@@ -93,9 +93,14 @@ function contourPlotTable(containerId, options) {
 
     // Setup cell properties
     options['cells'] = function(row, col, prop) {
-        return {
-            'renderer': ((row === 0) || (col === 0)) ? axisRenderer : 'numeric'
-        };
+        var cellProperties = {};
+
+        if ((row === 0) || (col === 0)) {
+            cellProperties.renderer = axisRenderer;
+        } else {
+            cellProperties.type = 'numeric';
+        }
+        return cellProperties;
     }
 
     var hot = new Handsontable(document.getElementById(containerId), options);

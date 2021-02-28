@@ -11,6 +11,7 @@ from .base import (
     BaseLinePlotBlock,
     BasePieChartBlock,
     BaseScatterPlotBlock,
+    BaseSurfacePlotBlock,
 )
 from .layout import LayoutChooserBlock
 
@@ -260,3 +261,24 @@ class ScatterPlotBlock(BaseScatterPlotBlock):
         if value['marker_symbol'] and value['marker_fill']:
             marker_symbol = value['marker_symbol'] + value['marker_fill']
             fig.update_traces(marker_symbol=marker_symbol)
+
+
+class SurfacePlotBlock(BaseSurfacePlotBlock):
+    """
+    Basic 3D surface plot
+    """
+    colorscale = blocks.ChoiceBlock(
+        required=False,
+        choices=COLORSCALE_CHOICES,
+        help_text='Sets the colorscale',
+    )
+
+    reversescale = blocks.BooleanBlock(
+        required=False,
+        help_text='Reverse the colorscale',
+    )
+
+    layout = LayoutChooserBlock(required=False)
+
+    def get_trace_fields(self):
+        return ['colorscale', 'reversescale']

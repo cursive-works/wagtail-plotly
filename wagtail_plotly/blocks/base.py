@@ -235,7 +235,11 @@ class BaseContourPlotBlock(BasePlotBlock):
 
                 if row_values:
                     y.append(row[0])
-                    z.append(row_values)
+
+                    # Make sure z-values are numeric (this is necessary for surface plots)
+                    z.append(
+                        [float(value) for value in row_values]
+                    )
 
         y = self.rstrip(y)
 
@@ -252,7 +256,10 @@ class BaseContourPlotBlock(BasePlotBlock):
 
         x, y, z = self.extract_values(plot_data)
 
-        data = [self.plot_class(x=x, y=y, z=z)]
+        if x and y:
+            data = [self.plot_class(x=y, y=x, z=z)]
+        else:
+            data = [self.plot_class(z=z)]
 
         return data
 
@@ -262,6 +269,13 @@ class BaseHeatmapPlotBlock(BaseContourPlotBlock):
     Base heatmap plot block
     """
     plot_class = go.Heatmap
+
+
+class BaseSurfacePlotBlock(BaseContourPlotBlock):
+    """
+    Base 3D surface plot block
+    """
+    plot_class = go.Surface
 
 
 class BaseLinePlotBlock(BasePlotBlock):
