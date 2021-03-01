@@ -21,6 +21,14 @@ from ..config import (
 from .table import PlotDataBlock
 
 
+def to_float(value):
+    try:
+        n = float(value)
+    except ValueError:
+        n = float('NaN')
+    return n
+
+
 class BasePlotBlock(blocks.StructBlock):
 
     title = blocks.CharBlock(required=False)
@@ -235,11 +243,7 @@ class BaseContourPlotBlock(BasePlotBlock):
 
                 if row_values:
                     y.append(row[0])
-
-                    # Make sure z-values are numeric (this is necessary for surface plots)
-                    z.append(
-                        [float(value) for value in row_values]
-                    )
+                    z.append(row_values)
 
         y = self.rstrip(y)
 
@@ -276,6 +280,14 @@ class BaseSurfacePlotBlock(BaseContourPlotBlock):
     Base 3D surface plot block
     """
     plot_class = go.Surface
+
+    def extract_values(self, plot_data):
+        x, y, z = super().extract_values(plot_data)
+
+        # Handle non numeric values in surface plots by converting all values to
+        # float or NaNs.
+        z = [[to_float(value) for value in row] for row in z]
+        return x, y, z
 
 
 class BaseLinePlotBlock(BasePlotBlock):
