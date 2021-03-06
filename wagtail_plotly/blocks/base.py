@@ -11,6 +11,7 @@ from ..config import (
     BAR_TABLE_OPTIONS,
     CONFIG_OPTIONS,
     CONTOUR_TABLE_OPTIONS,
+    DOT_TABLE_OPTIONS,
     INCLUDE_PLOTLYJS,
     LAYOUT_OPTIONS,
     LINE_TABLE_OPTIONS,
@@ -385,3 +386,40 @@ class BaseScatterPlotBlock(BasePlotBlock):
                     go.Scatter(name=group[0][0], x=group[0][1:], y=group[1][1:])
                 )
         return data
+
+
+class BaseDotPlotBlock(BasePlotBlock):
+    """
+    Base dot plot with common y axis values
+    """
+    plot_data = PlotDataBlock(
+        table_options=DOT_TABLE_OPTIONS,
+        help_text=(
+            'Dot plot data with a set of common Y values and multiple sets of X values. '
+            'First row contains Name(s) for legend.'
+        ),
+    )
+
+    def build_data(self, value):
+        """
+        Build line plot data
+        """
+        data = []
+
+        # Get the data in column format from the table
+        columns = self.get_columns(value['plot_data'])
+
+        if len(columns) >= 2:
+            # Pop the first column for common y values
+            y = columns.pop(0)
+
+            for column in columns:
+                data.append(
+                    go.Scatter(
+                        name=column[0],
+                        x=column[1:],
+                        y=y[1:],
+                        mode='markers',
+                    )
+                )
+            return data

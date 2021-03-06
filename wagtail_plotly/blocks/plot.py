@@ -7,6 +7,7 @@ from wagtail_color_panel.blocks import NativeColorBlock
 from .base import (
     BaseBarChartBlock,
     BaseContourPlotBlock,
+    BaseDotPlotBlock,
     BaseHeatmapPlotBlock,
     BaseLinePlotBlock,
     BasePieChartBlock,
@@ -154,6 +155,18 @@ class ContourPlotBlock(BaseContourPlotBlock):
 
     def get_trace_fields(self):
         return ['colorscale', 'reversescale']
+
+
+class DotPlotBlock(BaseDotPlotBlock):
+    """
+    Basic dot plot
+    """
+    marker_size = blocks.IntegerBlock(default=12, min_value=1, max_value=40)
+
+    layout = LayoutChooserBlock(required=False)
+
+    def get_trace_fields(self):
+        return ['marker_size']
 
 
 class HeatmapPlotBlock(BaseHeatmapPlotBlock):

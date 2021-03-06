@@ -5,7 +5,7 @@ function barPlotTable(containerId, options) {
     var firstRowRenderer = function(instance, td, row, col, prop, value, cellProperties) {
         Handsontable.renderers.TextRenderer.apply(this, arguments);
         td.style.fontWeight = 'bold';
-        td.style.textAlign = "center";
+        td.style.textAlign = 'center';
         td.style.background = '#FEEEEE';
     }
 
@@ -112,12 +112,69 @@ function contourPlotTable(containerId, options) {
 }
 
 
+function dotPlotTable(containerId, options) {
+
+    var firstRowRenderer = function(instance, td, row, col, prop, value, cellProperties) {
+        Handsontable.renderers.TextRenderer.apply(this, arguments);
+        td.style.fontWeight = 'bold';
+        td.style.textAlign = 'center';
+        td.style.background = '#FEEEEE';
+    }
+
+    var firstColRenderer  = function(instance, td, row, col, prop, value, cellProperties) {
+        Handsontable.renderers.TextRenderer.apply(this, arguments);
+        td.style.fontWeight = 'bold';
+        td.style.background = '#F4F4F4';
+    }
+
+    var colHeader = function(col, th) {
+        if (col == 0) {
+            th.textContent = 'Y';
+        } else if (col > 0) {
+            th.textContent = 'X' + (col - 1);
+        } else {
+            th.textContent = '';
+        }
+    };
+
+    var rowHeader = function(row, th) {
+        if (row == 0) {
+            th.textContent = 'Name';
+        } else if (row > 0) {
+            th.textContent = 'D' + (row - 1);
+        } else {
+            th.textContent = '';
+        }
+    };
+
+    options['cells'] = function(row, col, prop) {
+        var cellProperties = {};
+
+        if (row === 0) {
+            cellProperties.renderer = firstRowRenderer;
+        } else if (col === 0) {
+            cellProperties.renderer = firstColRenderer;
+        } else {
+            cellProperties.type = 'numeric';
+        }
+        return cellProperties;
+    }
+
+    var hot = new Handsontable(document.getElementById(containerId), options);
+
+    hot.addHook('afterGetColHeader', colHeader);
+    hot.addHook('afterGetRowHeader', rowHeader);
+
+    return hot;
+}
+
+
 function linePlotTable(containerId, options) {
 
     var firstRowRenderer = function(instance, td, row, col, prop, value, cellProperties) {
         Handsontable.renderers.TextRenderer.apply(this, arguments);
         td.style.fontWeight = 'bold';
-        td.style.textAlign = "center";
+        td.style.textAlign = 'center';
         td.style.background = '#FEEEEE';
     }
 
@@ -199,7 +256,7 @@ function scatterPlotTable(containerId, options) {
     var nameRowRenderer = function(instance, td, row, col, prop, value, cellProperties) {
         Handsontable.renderers.TextRenderer.apply(this, arguments);
         td.style.fontWeight = 'bold';
-        td.style.textAlign = "center";
+        td.style.textAlign = 'center';
         td.style.background = '#FEEEEE';
     }
 
@@ -314,6 +371,10 @@ function initPlotDataTable(id, tableOptions) {
 
         case 'contour':
             hot = contourPlotTable(containerId, options);
+            break;
+
+        case 'dot':
+            hot = dotPlotTable(containerId, options);
             break;
 
         case 'line':
