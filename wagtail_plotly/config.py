@@ -77,8 +77,7 @@ DEFAULT_PIE_TABLE_OPTIONS = TABLE_OPTIONS.copy()
 DEFAULT_PIE_TABLE_OPTIONS.update(
     {
         'plotType': 'pie',
-        'colHeaders': ['Name', 'Data'],
-        'rowHeaders': False,
+        'colHeaders': ['Name', 'Value'],
         'startCols': 2,
         'contextMenu': [
             'row_above',

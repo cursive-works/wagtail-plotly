@@ -332,7 +332,9 @@ class BasePieChartBlock(BasePlotBlock):
 
     plot_data = PlotDataBlock(
         table_options=PIE_TABLE_OPTIONS,
-        help_text='',
+        help_text=(
+            'Pie chart data with a set of name and value columns.'
+        ),
     )
 
     def build_data(self, value):

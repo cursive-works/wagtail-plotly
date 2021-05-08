@@ -1,18 +1,21 @@
 'use strict';
 
+const greyColor = '#F4F4F4';
+const pinkColor = '#FEEEEE';
+
 function barPlotTable(containerId, options) {
 
     var firstRowRenderer = function(instance, td, row, col, prop, value, cellProperties) {
         Handsontable.renderers.TextRenderer.apply(this, arguments);
         td.style.fontWeight = 'bold';
         td.style.textAlign = 'center';
-        td.style.background = '#FEEEEE';
+        td.style.background = pinkColor;
     }
 
     var firstColRenderer  = function(instance, td, row, col, prop, value, cellProperties) {
         Handsontable.renderers.TextRenderer.apply(this, arguments);
         td.style.fontWeight = 'bold';
-        td.style.background = '#F4F4F4';
+        td.style.background = greyColor;
     }
 
     var colHeader = function(col, th) {
@@ -67,10 +70,10 @@ function contourPlotTable(containerId, options) {
         if ((row === 0) && (col === 0)) {
             cellProperties.readOnly = 'true';
             td.textContent = 'Axis (x/y)';
-            td.style.background = '#F4F4F4';
+            td.style.background = greyColor;
             td.style.textAlign = 'center';
         } else {
-            td.style.background = '#FEEEEE';
+            td.style.background = pinkColor;
             td.style.textAlign = 'center';
         }
     }
@@ -118,13 +121,13 @@ function dotPlotTable(containerId, options) {
         Handsontable.renderers.TextRenderer.apply(this, arguments);
         td.style.fontWeight = 'bold';
         td.style.textAlign = 'center';
-        td.style.background = '#FEEEEE';
+        td.style.background = pinkColor;
     }
 
     var firstColRenderer  = function(instance, td, row, col, prop, value, cellProperties) {
         Handsontable.renderers.TextRenderer.apply(this, arguments);
         td.style.fontWeight = 'bold';
-        td.style.background = '#F4F4F4';
+        td.style.background = greyColor;
     }
 
     var colHeader = function(col, th) {
@@ -175,13 +178,13 @@ function linePlotTable(containerId, options) {
         Handsontable.renderers.TextRenderer.apply(this, arguments);
         td.style.fontWeight = 'bold';
         td.style.textAlign = 'center';
-        td.style.background = '#FEEEEE';
+        td.style.background = pinkColor;
     }
 
     var firstColRenderer  = function(instance, td, row, col, prop, value, cellProperties) {
         Handsontable.renderers.TextRenderer.apply(this, arguments);
         td.style.fontWeight = 'bold';
-        td.style.background = '#F4F4F4';
+        td.style.background = greyColor;
     }
 
     var colHeader = function(col, th) {
@@ -231,8 +234,12 @@ function piePlotTable(containerId, options) {
     var firstColRenderer  = function(instance, td, row, col, prop, value, cellProperties) {
         Handsontable.renderers.TextRenderer.apply(this, arguments);
         td.style.fontWeight = 'bold';
-        td.style.background = '#F4F4F4';
+        td.style.background = pinkColor;
     }
+
+    var rowHeader = function(row, th) {
+        th.textContent = 'D' + row;
+    };
 
     options['cells'] = function(row, col, prop) {
         var cellProperties = {};
@@ -247,6 +254,8 @@ function piePlotTable(containerId, options) {
 
     var hot = new Handsontable(document.getElementById(containerId), options);
 
+    hot.addHook('afterGetRowHeader', rowHeader);
+
     return hot;
 }
 
@@ -257,13 +266,13 @@ function scatterPlotTable(containerId, options) {
         Handsontable.renderers.TextRenderer.apply(this, arguments);
         td.style.fontWeight = 'bold';
         td.style.textAlign = 'center';
-        td.style.background = '#FEEEEE';
+        td.style.background = pinkColor;
     }
 
     var xColRenderer = function(instance, td, row, col, prop, value, cellProperties) {
         cellProperties.type = 'numeric';
         Handsontable.renderers.TextRenderer.apply(this, arguments);
-        td.style.background = '#F4F4F4';
+        td.style.background = greyColor;
         td.style.textAlign = 'right';
     }
 
