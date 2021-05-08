@@ -2,6 +2,7 @@
 
 const greyColor = '#F4F4F4';
 const pinkColor = '#FEEEEE';
+const greenColor = '#F2FCFC';
 
 function barPlotTable(containerId, options) {
 
@@ -55,6 +56,35 @@ function barPlotTable(containerId, options) {
 
     hot.addHook('afterGetColHeader', colHeader);
     hot.addHook('afterGetRowHeader', rowHeader);
+
+    return hot;
+}
+
+
+function bubblePlotTable(containerId, options) {
+
+    var nameRowRenderer = function(instance, td, row, col, prop, value, cellProperties) {
+        Handsontable.renderers.TextRenderer.apply(this, arguments);
+        td.style.fontWeight = 'bold';
+    }
+
+    var rowHeader = function(row, th) {
+        th.textContent = 'D' + row;
+    };
+
+    // Setup cell properties
+    options['cells'] = function(row, col, prop) {
+        var cellProperties = {};
+
+        if (col === 0) {
+            cellProperties.renderer = nameRowRenderer;
+        } else {
+            cellProperties.type = 'numeric';
+        }
+        return cellProperties;
+    }
+
+    var hot = new Handsontable(document.getElementById(containerId), options);
 
     return hot;
 }
@@ -376,6 +406,10 @@ function initPlotDataTable(id, tableOptions) {
     switch (plotType) {
         case 'bar':
             hot = barPlotTable(containerId, options);
+            break;
+
+        case 'bubble':
+            hot = bubblePlotTable(containerId, options);
             break;
 
         case 'contour':

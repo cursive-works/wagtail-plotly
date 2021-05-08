@@ -4,9 +4,13 @@ from django import forms
 from django.template.loader import render_to_string
 from django.utils.functional import cached_property
 
-
 from wagtail.admin.staticfiles import versioned_static
 from wagtail.contrib.table_block.blocks import TableBlock
+from wagtail.core import blocks
+
+from ..config import (
+    BUBBLE_TABLE_OPTIONS,
+)
 
 
 class PlotTableInput(forms.HiddenInput):
@@ -55,3 +59,17 @@ class PlotDataBlock(TableBlock):
                 versioned_static('wagtail_plotly/js/plot_data_table.js'),
             ],
         )
+
+
+class BubblePlotDataBlock(blocks.StructBlock):
+    """
+    Bubble plot data block
+    """
+    group_name = blocks.CharBlock(help_text='Name of the bubble group')
+
+    plot_data = PlotDataBlock(
+        table_options=BUBBLE_TABLE_OPTIONS,
+        help_text=(
+            'Bubble plot data with Name, X, Y and Z values.'
+        ),
+    )

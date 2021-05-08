@@ -6,6 +6,7 @@ from wagtail_color_panel.blocks import NativeColorBlock
 
 from .base import (
     BaseBarChartBlock,
+    BaseBubblePlotBlock,
     BaseContourPlotBlock,
     BaseDotPlotBlock,
     BaseHeatmapPlotBlock,
@@ -134,6 +135,13 @@ class BarChartBlock(BaseBarChartBlock):
 
     def get_layout_fields(self):
         return ['barmode', 'bargroupgap']
+
+
+class BubblePlotBlock(BaseBubblePlotBlock):
+    """
+    Basic bubble plot
+    """
+    layout = LayoutChooserBlock(required=False)
 
 
 class ContourPlotBlock(BaseContourPlotBlock):

@@ -51,6 +51,28 @@ DEFAULT_BAR_TABLE_OPTIONS.update(
     }
 )
 
+DEFAULT_BUBBLE_TABLE_OPTIONS = TABLE_OPTIONS.copy()
+DEFAULT_BUBBLE_TABLE_OPTIONS.update(
+    {
+        'plotType': 'bubble',
+        'colHeaders': ['Name', 'X', 'Y', 'Z'],
+        'startCols': 4,
+        'startRows': 5,
+        'contextMenu': [
+            'row_above',
+            'row_below',
+            '---------',
+            'remove_row',
+            '---------',
+            'undo',
+            'redo',
+            '---------',
+            'copy',
+            'cut',
+        ],
+        'height': 160,
+    }
+)
 
 DEFAULT_CONTOUR_TABLE_OPTIONS = TABLE_OPTIONS.copy()
 DEFAULT_CONTOUR_TABLE_OPTIONS.update(
@@ -156,6 +178,7 @@ INCLUDE_PLOTLYJS = getattr(settings, 'WAGTAIL_PLOTLY_INCLUDE_PLOTLYJS', DEFAULT_
 
 # Data table settings
 BAR_TABLE_OPTIONS = getattr(settings, 'WAGTAIL_PLOTLY_BAR_TABLE_OPTIONS', DEFAULT_BAR_TABLE_OPTIONS)
+BUBBLE_TABLE_OPTIONS = getattr(settings, 'WAGTAIL_PLOTLY_BUBBLE_TABLE_OPTIONS', DEFAULT_BUBBLE_TABLE_OPTIONS)
 CONTOUR_TABLE_OPTIONS = getattr(settings, 'WAGTAIL_PLOTLY_CONTOUR_TABLE_OPTIONS', DEFAULT_CONTOUR_TABLE_OPTIONS)
 DOT_TABLE_OPTIONS = getattr(settings, 'WAGTAIL_PLOTLY_DOT_TABLE_OPTIONS', DEFAULT_DOT_TABLE_OPTIONS)
 LINE_TABLE_OPTIONS = getattr(settings, 'WAGTAIL_PLOTLY_LINE_TABLE_OPTIONS', DEFAULT_LINE_TABLE_OPTIONS)

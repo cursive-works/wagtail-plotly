@@ -19,7 +19,10 @@ from ..config import (
     SCATTER_TABLE_OPTIONS,
     TRACE_OPTIONS,
 )
-from .table import PlotDataBlock
+from .table import (
+    BubblePlotDataBlock,
+    PlotDataBlock,
+)
 
 
 def to_float(value):
@@ -42,6 +45,12 @@ class BasePlotBlock(blocks.StructBlock):
         self.layout_options = copy.deepcopy(layout_options if layout_options else LAYOUT_OPTIONS)
         self.trace_options = copy.deepcopy(trace_options if trace_options else TRACE_OPTIONS)
         super().__init__(**kwargs)
+
+    def get_rows(self, plot_data):
+        """
+        Get the rows from the table removing empty rows
+        """
+        return [row for row in plot_data if any(row)]
 
     def get_columns(self, plot_data):
         """
@@ -425,3 +434,74 @@ class BaseDotPlotBlock(BasePlotBlock):
                     )
                 )
             return data
+
+
+class BaseBubblePlotBlock(BasePlotBlock):
+    """
+    Base bubble plot block
+    """
+    zaxis_title = blocks.CharBlock(required=False)
+    marker_sizemin = blocks.IntegerBlock(default=10, min_value=1, max_value=50)
+    max_marker_size = blocks.IntegerBlock(default=100, min_value=1, max_value=200)
+
+    plot_tables = blocks.ListBlock(BubblePlotDataBlock())
+
+    def build_data(self, value):
+        """
+        Build bubble plot data
+        """
+        data = []
+        marker_sizes = []
+
+        xaxis_title = value['xaxis_title']
+        yaxis_title = value['yaxis_title']
+        zaxis_title = value['zaxis_title']
+
+        marker_sizemin = value['marker_sizemin']
+
+        plot_tables = value['plot_tables']
+
+        for table in plot_tables:
+            group_name = table['group_name']
+
+            # Remove empty rows
+            rows = self.get_rows(table['plot_data'])
+
+            # Transform to columns
+            columns = self.get_columns(rows)
+
+            # Get list of sizes
+            size = columns[3]
+
+            hovertemplate = [
+                (
+                    f'<b>{row[0]} ({group_name})</b><br>'
+                    f'{xaxis_title}: {row[1]}<br>'
+                    f'{yaxis_title}: {row[2]}<br>'
+                    f'{zaxis_title}: {row[3]}<extra></extra>'
+                ) for row in rows
+            ]
+
+            data.append(
+                go.Scatter(
+                    name=group_name,
+                    x=columns[1],
+                    y=columns[2],
+                    marker=dict(
+                        size=size,
+                    ),
+                    mode='markers',
+                    hovertemplate=hovertemplate,
+                    marker_sizemin=marker_sizemin,
+                )
+            )
+            marker_sizes.append(max(size))
+
+        self.sizeref = 2 * max(marker_sizes) / (value['max_marker_size'] ** 2)
+
+        return data
+
+    def update_traces(self, fig, value):
+        super().update_traces(fig, value)
+
+        fig.update_traces(marker=dict(sizemode='area', sizeref=self.sizeref, line_width=2))
