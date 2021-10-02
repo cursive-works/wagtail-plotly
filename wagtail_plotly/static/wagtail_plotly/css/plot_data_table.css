@@ -1,6 +1,6 @@
 /* https://github.com/handsontable/handsontable/issues/2494 */
 
-.plot-data-table {
+.widget-plot_table_input {
     position: relative;
     z-index: 0;
 }

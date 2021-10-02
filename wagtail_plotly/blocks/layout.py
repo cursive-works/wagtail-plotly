@@ -15,6 +15,9 @@ class PaletteChooserBlock(blocks.ChooserBlock):
     def widget(self):
         return PaletteChooser()
 
+    def get_form_state(self, value):
+        return self.widget.get_value_data(value)
+
 
 class LayoutChooserBlock(blocks.ChooserBlock):
     @cached_property
@@ -24,3 +27,6 @@ class LayoutChooserBlock(blocks.ChooserBlock):
     @cached_property
     def widget(self):
         return LayoutChooser()
+
+    def get_form_state(self, value):
+        return self.widget.get_value_data(value)

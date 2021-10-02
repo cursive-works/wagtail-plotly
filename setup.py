@@ -10,9 +10,9 @@ with open(os.path.join(os.path.dirname(__file__), 'README.md')) as readme:
 # Package dependencies
 install_requires = [
     "plotly>=4.14.3",
-    "wagtail>=2.8.1",
-    "wagtail-color-panel>=1.2.0",
-    "wagtail-generic-chooser>=0.1.1"
+    "wagtail>=2.13",
+    "wagtail-color-panel>=1.3.0",
+    "wagtail-generic-chooser>=0.3"
 ]
 
 
@@ -40,6 +40,7 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Software Development',

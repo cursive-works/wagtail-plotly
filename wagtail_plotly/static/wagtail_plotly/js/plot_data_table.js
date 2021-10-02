@@ -437,3 +437,41 @@ function initPlotDataTable(id, tableOptions) {
         hot.render();
     }
 }
+window.initPlotDataTable = initPlotDataTable;
+
+class PlotTableInput {
+  constructor(options, strings) {
+    this.options = options;
+    this.strings = strings;
+  }
+
+  render(placeholder, name, id, initialState) {
+    const container = document.createElement('div');
+    container.innerHTML = `
+      <div id="${id}-handsontable-container"></div>
+      <input type="hidden" name="${name}" id="${id}" placeholder="${this.strings['Table']}">
+    `;
+    placeholder.replaceWith(container);
+
+    const input = container.querySelector(`input[name="${name}"]`);
+    const options = this.options;
+
+    const widget = {
+      getValue() {
+        return JSON.parse(input.value);
+      },
+      getState() {
+        return JSON.parse(input.value);
+      },
+      setState(state) {
+        input.value = JSON.stringify(state);
+        initPlotDataTable(id, options);
+      },
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      focus() {},
+    };
+    widget.setState(initialState);
+    return widget;
+  }
+}
+window.telepath.register('wagtail_plotly.widgets.PlotTableInput', PlotTableInput);
