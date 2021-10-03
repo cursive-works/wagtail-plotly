@@ -1,9 +1,9 @@
 from django.utils.functional import cached_property
 
+from wagtail.core import blocks
+
 from ..widgets.palette import PaletteChooser
 from ..widgets.layout import LayoutChooser
-
-from wagtail.core import blocks
 
 
 class PaletteChooserBlock(blocks.ChooserBlock):

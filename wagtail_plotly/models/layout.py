@@ -16,7 +16,7 @@ from wagtail.admin.edit_handlers import (
 from wagtail_color_panel.edit_handlers import NativeColorPanel
 from wagtail_color_panel.fields import ColorField
 
-from wagtail_plotly.widgets.palette import PaletteChooser
+from ..widgets.palette import PaletteChooser
 
 
 class LayoutTitle(models.Model):

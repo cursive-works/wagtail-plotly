@@ -69,17 +69,9 @@ class PlotDataBlock(TableBlock):
             return self.render_basic(value or '', context=context)
 
         new_context = {} if context is None else dict(context)
-        # new_context.update({'self': value})
+        new_context.update({'self': value})
 
-        new_context.update({
-            'self': value,
-            self.TEMPLATE_VAR: value,
-            'html_renderer': self.is_html_renderer(),
-            'data': value.get('data', [])
-        })
         return render_to_string(template, new_context)
-
-
 
 
 class BubblePlotDataBlock(blocks.StructBlock):
