@@ -7,7 +7,7 @@ Create charts in Wagtail using Plotly. This is project is in Alpha, so expect br
 
 ## Installation
 
-Install from [PyPI](https://test.pypi.org/project/wagtail-plotly/):
+Install from [PyPI](https://pypi.org/project/wagtail-plotly/):
 
 ```
 pip install wagtail-plotly
