@@ -2,8 +2,8 @@
 
 Create charts in Wagtail using Plotly. This is project is in Alpha, so expect breaking changes!
 
-![Line plot](docs/img/lineplot.png)
-[Some more examples](docs/examples.md)
+![Line plot](https://github.com/cursive-works/wagtail-plotly/blob/master/docs/img/lineplot.png)
+[Some more examples](https://github.com/cursive-works/wagtail-plotly/blob/master/docs/examples.md)
 
 ## Installation
 
@@ -26,10 +26,10 @@ Then add the following to your project's `INSTALLED_APPS`.
 
 There are currently several plot blocks that are ready to use:
 
-* [BarChartBlock / LinePlotBlock](docs/bar_and_line.md)
-* [ContourPlotBlock / HeatmapPlotBlock](docs/contour_and_heatmap.md)
-* [PieChartBlock](docs/pie.md)
-* [ScatterPlotBlock](docs/scatter.md)
+* [BarChartBlock / LinePlotBlock](https://github.com/cursive-works/wagtail-plotly/blob/master/docs/bar_and_line.md)
+* [ContourPlotBlock / HeatmapPlotBlock](https://github.com/cursive-works/wagtail-plotly/blob/master/docs/contour_and_heatmap.md)
+* [PieChartBlock](https://github.com/cursive-works/wagtail-plotly/blob/master/docs/pie.md)
+* [ScatterPlotBlock](https://github.com/cursive-works/wagtail-plotly/blob/master/docs/scatter.md)
 
 Each plot block has a number of trace/layout fields appropriate to its type.
 
