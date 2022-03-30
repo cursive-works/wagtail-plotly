@@ -1,7 +1,8 @@
-0.0.2-alpha (xx.xx.xxxx) (unreleased)
+0.0.2-alpha (2022-03-30)
 ------------------------
 
-* Updated readme to add PyPI install instruction.
+* Updated readme to add PyPI install instruction and github links.
+* Updated author email address.
 
 
 0.0.1-alpha (2022-03-29)
