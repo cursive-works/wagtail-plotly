@@ -27,7 +27,7 @@ setup(
     long_description_content_type='text/markdown',
     url='https://github.com/cursive-works/wagtail-plotly',
     author='Martin Swarbrick',
-    author_email='martin.swarbrick@gmail.com',
+    author_email='martin.swarbrick@cursive.works',
     keywords=['WAGTAIL', 'PLOTLY', 'STREAMFIELD', 'WAGTAIL_PLOTLY', 'WAGTAIL CMS'],
     classifiers=[
         'Development Status :: 3 - Alpha',
