@@ -1,4 +1,3 @@
-include requirements.txt
-include README.md LICENSE
+include README.md LICENSE CHANGELOG.txt
 recursive-include wagtail_plotly *.py *.html *.js *.css
 prune docs
