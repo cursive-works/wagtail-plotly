@@ -9,21 +9,22 @@ from wagtail.core import blocks
 
 from ..config import (
     BAR_TABLE_OPTIONS,
-    CONFIG_OPTIONS,
     CONTOUR_TABLE_OPTIONS,
+    DEFAULT_CONFIG_OPTIONS,
+    DEFAULT_LAYOUT_OPTIONS,
+    DEFAULT_TRACE_OPTIONS,
     DOT_TABLE_OPTIONS,
     INCLUDE_PLOTLYJS,
-    LAYOUT_OPTIONS,
     LINE_TABLE_OPTIONS,
     PIE_TABLE_OPTIONS,
     SCATTER_TABLE_OPTIONS,
-    TRACE_OPTIONS,
 )
 from .table import (
     BubblePlotDataBlock,
     PlotDataBlock,
 )
 
+from ..utils import get_layout, get_config, get_trace, get_layout_choices
 
 def to_float(value):
     try:
@@ -38,13 +39,15 @@ class BasePlotBlock(blocks.StructBlock):
     title = blocks.CharBlock(required=False)
     xaxis_title = blocks.CharBlock(required=False)
     yaxis_title = blocks.CharBlock(required=False)
+    graph_layout = blocks.ChoiceBlock(required=False, choices=get_layout_choices)
 
-    def __init__(self, config_options=None, layout_options=None, trace_options=None, **kwargs):
-
-        self.config_options = copy.deepcopy(config_options if config_options else CONFIG_OPTIONS)
-        self.layout_options = copy.deepcopy(layout_options if layout_options else LAYOUT_OPTIONS)
-        self.trace_options = copy.deepcopy(trace_options if trace_options else TRACE_OPTIONS)
+    def __init__(self, layouts=[], **kwargs):
+        # TODO add configuration for choices, but this may not be supported by Wagtail
         super().__init__(**kwargs)
+        # choices = get_layout_choices(layouts)
+        # self.child_blocks['graph_layout'].field.choices = choices
+        
+        print(self.child_blocks['graph_layout'].field.choices)
 
     def get_rows(self, plot_data):
         """
@@ -79,7 +82,7 @@ class BasePlotBlock(blocks.StructBlock):
         )
         return fig
 
-    def fig_to_html(self, fig):
+    def fig_to_html(self, fig, config_options):
         """
         Generate the markup for the plot
         """
@@ -87,7 +90,7 @@ class BasePlotBlock(blocks.StructBlock):
             fig.to_html(
                 full_html=False,
                 include_plotlyjs=INCLUDE_PLOTLYJS,
-                config=self.config_options,
+                config=config_options,
             )
         )
 
@@ -139,23 +142,26 @@ class BasePlotBlock(blocks.StructBlock):
             return self.render_basic(value or '', context=context)
 
         data = self.build_data(value)
-
         # Create a layout traces with layout options provided or default
-        layout = go.Layout(**self.layout_options)
+        graph_layout = value.get('graph_layout')
+        layout_options = get_layout(graph_layout) or DEFAULT_LAYOUT_OPTIONS
+        config_options = get_config(graph_layout) or DEFAULT_CONFIG_OPTIONS
+        trace_options = get_trace(graph_layout) or DEFAULT_TRACE_OPTIONS
+
+        layout = go.Layout(**layout_options)
 
         fig = self.build_figure(data, layout, value)
 
         # Update traces with trace options provided or default
-        if self.trace_options:
-            fig.update_traces(**self.trace_options)
+        fig.update_traces(**trace_options)
 
         # Update the traces with any custom options
         self.update_traces(fig, value)
 
         # Update the layout with any custom options
-        self.update_layout(fig, value)
+        # self.update_layout(fig, value)
 
-        plot = self.fig_to_html(fig)
+        plot = self.fig_to_html(fig, config_options)
 
         ctx = {} if context is None else dict(context)
         ctx.update({'plot': plot})
