@@ -15,7 +15,7 @@ from .table import (
     PlotDataBlock,
 )
 
-from .base import BasePlotBlock
+from .base import BasePlotBlock, CustomPlotMixin
 
 from ..utils import to_float
 
@@ -354,7 +354,19 @@ class BubblePlotBlock(BasePlotBlock):
 
         return data
 
-    def update_traces(self, fig, value):
-        super().update_traces(fig, value)
-
+    def update_figure(self, fig, value):
         fig.update_traces(marker=dict(sizemode='area', sizeref=self.sizeref, line_width=2))
+
+
+class CustomBarChartBlock(CustomPlotMixin, BarChartBlock):
+    pass
+class CustomContourPlotBlock(CustomPlotMixin, ContourPlotBlock):
+    pass
+class CustomHeatmapPlotBlock(CustomPlotMixin, HeatmapPlotBlock):
+    pass
+class CustomLinePlotBlock(CustomPlotMixin, LinePlotBlock):
+    pass
+class CustomPieChartBlock(CustomPlotMixin, PieChartBlock):
+    pass
+class CustomScatterPlotBlock(CustomPlotMixin, ScatterPlotBlock):
+    pass

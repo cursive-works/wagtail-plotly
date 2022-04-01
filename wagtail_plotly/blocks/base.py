@@ -1,5 +1,8 @@
+import json
 import plotly.graph_objects as go
 
+from django import forms
+from django.core.exceptions import ValidationError
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 
@@ -18,6 +21,31 @@ from ..utils import (
     get_trace, 
     get_layout_choices
 )
+
+from ..widgets import JSONWidget
+
+
+class JsonBlock(blocks.FieldBlock):
+    """
+    JSON field block
+    """
+    def __init__(self, required=True, help_text=None, max_length=None, min_length=None, validators=(), **kwargs):
+        self.field = forms.CharField(
+            widget=JSONWidget,
+            required=required,
+            help_text=help_text,
+            max_length=max_length,
+            min_length=min_length,
+            validators=validators,
+        )
+        super().__init__(**kwargs)
+
+    def clean(self, value):
+        try:
+            json.loads(value)
+        except json.decoder.JSONDecodeError as e:
+            raise ValidationError(f'Invalid JSON: {e}')
+        return super().clean(value)
 
 
 class BasePlotBlock(blocks.StructBlock):
@@ -75,40 +103,12 @@ class BasePlotBlock(blocks.StructBlock):
     def build_data(self, value):
         raise NotImplementedError('To be implemented in child class')
 
-    def get_trace_fields(self):
+    def update_figure(self, fig, value):
         """
-        To be implemented in child class for trace fields to be updated
+        An opportunity for subclasses to modify the figure after
+        all other configurations have been applied.
         """
-        return []
-
-    def get_layout_fields(self):
-        """
-        To be implemented in child class for layout fields to be updated
-        """
-        return []
-
-    def update_traces(self, fig, value):
-        """
-        Update the traces with config values from the block
-        """
-        fields = self.get_trace_fields()
-        if fields:
-            config = {k: v for k, v in value.items() if v != '' and k in fields}
-            fig.update_traces(**config)
-
-    def update_layout(self, fig, value):
-        """
-        Update the layout with values from the block. If a layout model field
-        exists it is used, along with any additional fields.
-        """
-        layout = value.get('layout')
-        if layout:
-            fig.update_layout(**layout.to_dict())
-
-        fields = self.get_layout_fields()
-        if fields:
-            config = {k: v for k, v in value.items() if v != '' and k in fields}
-            fig.update_layout(**config)
+        return
 
     def render(self, value, context=None):
         """
@@ -129,15 +129,9 @@ class BasePlotBlock(blocks.StructBlock):
         layout = go.Layout(**layout_options)
 
         fig = self.build_figure(data, layout, value)
-
-        # Update traces with trace options provided or default
         fig.update_traces(**trace_options)
 
-        # Update the traces with any custom options
-        self.update_traces(fig, value)
-
-        # Update the layout with any custom options
-        # self.update_layout(fig, value)
+        self.update_figure(fig, value)
 
         plot = self.fig_to_html(fig, config_options)
 
@@ -150,3 +144,18 @@ class BasePlotBlock(blocks.StructBlock):
         template = 'wagtail_plotly/blocks/plot.html'
         icon = 'table'
 
+
+class CustomPlotMixin(blocks.StructBlock):
+ 
+    custom = JsonBlock()
+
+    def update_figure(self, fig, value):
+        ob = self.get_custom_data(value)
+        fig.update_layout(**ob.get('layout', {}))
+        fig.update_traces(**ob.get('trace', {}))
+
+    def get_custom_data(self, value):
+        """
+        Return a dict of grafl data from a user ediable JSON block
+        """
+        return json.loads(value['custom'])
