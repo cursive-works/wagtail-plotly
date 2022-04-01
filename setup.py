@@ -11,10 +11,7 @@ with open(os.path.join(os.path.dirname(__file__), 'README.md')) as readme:
 install_requires = [
     "plotly>=4.14.3",
     "wagtail>=2.13",
-    "wagtail-color-panel>=1.3.0",
-    "wagtail-generic-chooser>=0.3"
 ]
-
 
 setup(
     name='wagtail_plotly',
