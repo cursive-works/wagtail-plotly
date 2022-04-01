@@ -5,6 +5,13 @@ from collections import namedtuple
 from django.apps import apps
 
 
+def to_float(value):
+    try:
+        n = float(value)
+    except ValueError:
+        n = float('NaN')
+    return n
+
 def get_layout_dirs():
     paths = []
     for name, ac in apps.app_configs.items():
