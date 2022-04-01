@@ -1,6 +1,6 @@
 0.0.3-alpha (xxxx.xx.xx) (unreleased)
 ------------------------
-
+* BREAKING CHANGE: Switched to configuration / customisation via JSON (rather than UI)
 
 0.0.2-alpha (2022-03-30)
 ------------------------
