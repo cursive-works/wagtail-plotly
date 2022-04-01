@@ -17,8 +17,6 @@ Then add the following to your project's `INSTALLED_APPS`.
 
 ```
 'wagtail.contrib.table_block',
-'generic_chooser',
-'wagtail_color_panel',
 'wagtail_plotly',
 ```
 
@@ -40,7 +38,7 @@ Each plot block has a number of trace/layout fields appropriate to its type.
 ```python
 from wagtail.core import blocks
 
-from wagtail_plotly.blocks.plot import (
+from wagtail_plotly.blocks import (
     BarChartBlock,
     ContourPlotBlock,
     HeatmapPlotBlock,
@@ -84,56 +82,25 @@ Then in the page template:
 {% include_block page.body %}
 ```
 
-## Build your own
+## Customising
+Configuring `plotly` graphs *can* be complex. There are A LOT of options available. `plotly` provide [Chart Studio](https://chart-studio.plotly.com) from which graphs and layouts can be made and exported as JSON data. 
 
-The plots in `wagtail-plotly` are based around a set of base block classes, that can be extended to create your own plots. The intention is to allow custom layouts and trace config whilst handling the data input. The base classes are:
+`wagtail-plotly` is designed to consume a subset of this data with minimal effort by developers:
+`wagtail-plotly` will look for directories named `plotly` in each installed app and any `.json` files therein are assumed to be configuration options that are presented to users as `Graph layout` options. In this way developers can provide managed plot configurations to end-users that override the default settings.
 
-* BaseBarChartBlock
-* BaseContourPlotBlock
-* BaseHeatmapPlotBlock
-* BaseLinePlotBlock
-* BasePieChartBlock
-* BaseScatterPlotBlock
+TODO: Document the format of these configuration files. 
 
-Each base block class inherits from `BasePlotBlock`. All of the blocks have a `plot_data` field for entering plot data (based on `wagtail.contrib.table_block`) and `build_data` method for extracting data from the table ready for plotting.
+The plots in `wagtail-plotly` are based around a set of stream block classes. These can be used as is or extended to create custom plots. The intention is to allow custom layouts and trace config whilst handling the data input. Out of the box `wagtail-plotly` provides:
+
+* BarChartBlock
+* ContourPlotBlock
+* HeatmapPlotBlock
+* LinePlotBlock
+* PieChartBlock
+* ScatterPlotBlock
+
+Each block class inherits from `BasePlotBlock`. All of the blocks have a `plot_data` field for entering plot data (based on `wagtail.contrib.table_block`) and `build_data` method for extracting data from the table ready for plotting.
 
 ### Creating new plot blocks
 
-New plot blocks can be created by inheriting from a base plot. The `get_trace_fields` and `get_layout_fields` methods can be used to pass any additional fields to the Plotly `update_traces` and `update_layout` methods respectively.
-
-**Note:** It's important that the field names are based on parameters that Plotly knows about, see https://plotly.com/python/reference/ for details.
-
-A basic bar chart block might look like this:
-
-```
-class MyBarChartBlock(BaseBarChartBlock):
-    orientation = blocks.ChoiceBlock(default='v', choices=[
-        ('v', 'Vertical'), ('h', 'Horizontal')
-    ])
-
-    barmode = blocks.ChoiceBlock(default='group', choices=[
-        ('group', 'Group'), ('stack', 'Stack'),
-    ])
-
-    def get_trace_fields(self):
-        return ['orientation']
-
-    def get_layout_fields(self):
-        return ['barmode']
-```
-
-## Admin interface
-
-`wagtail-plotly` is installed as a separate items in the Wagtail admin menu. It currently only has two options, Palettes and Layouts.
-
-### Palettes
-
-`Palettes` consist of a selection of colors that are used to draw the plots. Any number of palettes can be created. A user defined `Palette` can be selected in a `Layout` for the `colorway` field.
-
-### Layouts
-
-Layouts control the look, style and positioning of the `wagtail-plotly` plot elements. There are settings for controlling title layout, fonts, legends and margins. Not all of Plotly's layout options are covered, but this provides a simple way to add user defined layouts to your plot blocks using a `LayoutChooserBlock`.
-
-#### LayoutChooserBlock
-
-The `layout` is a special named field that can be added to a plot block using the `LayoutChooserBlock`, allowing the selection of user defined layouts.
+New plot blocks can be created by inheriting from either`BasePlotBlock` or one of the above blocks.
