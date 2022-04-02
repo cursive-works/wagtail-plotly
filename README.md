@@ -91,7 +91,7 @@ Configuring `plotly` graphs *can* be complex. There are A LOT of options availab
 `wagtail-plotly` is designed to consume a subset of this data with minimal effort by developers:
 `wagtail-plotly` will look for directories named `plotly` in each installed app and any `.json` files therein are assumed to be configuration options that are presented to users as `Graph layout` options. In this way developers can provide managed plot configurations to end-users that override the default settings.
 
-For example: `my_bar_graph.json` might contain:
+For example: `my_plot.json` might contain:
 ```json
 {
     "layout": {
@@ -122,16 +122,9 @@ For example: `my_bar_graph.json` might contain:
 
 ### Customising StreamField Blocks
 
-The plots in `wagtail-plotly` are based around a set of stream block classes. These can be used as is or extended to create custom plots. The intention is to allow custom layouts and trace config whilst handling the data input. Out of the box `wagtail-plotly` provides:
+Plots in `wagtail-plotly` are a set of Wagtail StreamField blocks that share a common base `BasePlotBlock`. They can be used as is or extended to create custom plots or features of Plotly that aren't (yet) handled by default. 
 
-* BarChartBlock
-* ContourPlotBlock
-* HeatmapPlotBlock
-* LinePlotBlock
-* PieChartBlock
-* ScatterPlotBlock
-
-Each block class inherits from `BasePlotBlock`. All of the blocks have a `plot_data` field for entering plot data (based on `wagtail.contrib.table_block`) and `build_data` method for extracting data from the table ready for plotting.
+All of the blocks have a `plot_data` field for entering plot data (based on `wagtail.contrib.table_block`) and `build_data` method for extracting data from the table ready for plotting.
 
 ### Creating new plot blocks
 
