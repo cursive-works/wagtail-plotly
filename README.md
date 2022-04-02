@@ -30,7 +30,7 @@ There are several plot blocks that you can use out of the box:
 * [PieChartBlock](https://github.com/cursive-works/wagtail-plotly/blob/master/docs/pie.md)
 * [ScatterPlotBlock](https://github.com/cursive-works/wagtail-plotly/blob/master/docs/scatter.md)
 
-Adding one of these blocks provides you with input fields to manage the content of your plot, primarily titles and data, and a layout/style option(s). There is one default option out-of-the-box and more can be added by developers via `.json` files using [Plotly's schema](https://plotly.com/python/reference/index/). [See Customising](Customising)
+Adding one of these blocks provides you with input fields to manage the content of your plot, primarily titles and data, and a layout/style option(s). There is one default option out-of-the-box and more can be added by developers via `.json` files using [Plotly's schema](https://plotly.com/python/reference/index/). [See Customising](#Customising)
 
 This app also provides versions of the above blocks that support case by case customisation via a json field in the CMS UI.
 
