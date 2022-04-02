@@ -1,7 +1,7 @@
-# Wagtail-Plotly
+# Wagtail Plotly
 
-This project aims to provide *content focused* management of [Plotly](https://plotly.com) charts 
-in [Wagtail CMS](https://wagtail.io) and to give developers and easy way customise and extend plots.
+This project aims to provide *content focused* management of [Plotly.py](https://github.com/plotly/plotly.py) 
+charts in [Wagtail CMS](https://wagtail.io) and to give developers and easy way customise and extend plots.
 
 ![Line plot](https://github.com/cursive-works/wagtail-plotly/blob/master/docs/img/lineplot.png)
 [Some more examples](https://github.com/cursive-works/wagtail-plotly/blob/master/docs/examples.md)
@@ -86,10 +86,10 @@ Then in the page template:
 ```
 
 ## Customising
-Configuring `plotly` graphs *can* be complex. There are A LOT of options available. `plotly` provide [Chart Studio](https://chart-studio.plotly.com) from which graphs and layouts can be made and exported as JSON data. 
+Configuring `plotly` graphs *can* be complex because there are a lot of options available. `plotly` provide [Chart Studio](https://chart-studio.plotly.com) from which graphs and layouts can be made and exported as JSON data. 
 
-`wagtail-plotly` is designed to consume a subset of this data with minimal effort by developers:
-`wagtail-plotly` will look for directories named `plotly` in each installed app and any `.json` files therein are assumed to be configuration options that are presented to users as `Graph layout` options. In this way developers can provide managed plot configurations to end-users that override the default settings.
+Wagtail Plotly is designed to consume a subset of this data with minimal effort by developers:
+Wagtail Plotly will look for directories named `plotly` in each installed app and any `.json` files therein are assumed to be configuration options that are presented to users as `Graph layout` options. In this way developers can provide managed plot configurations to end-users that override the default settings.
 
 For example: `my_plot.json` might contain:
 ```json
@@ -122,7 +122,7 @@ For example: `my_plot.json` might contain:
 
 ### Customising StreamField Blocks
 
-Plots in `wagtail-plotly` are a set of Wagtail StreamField blocks that share a common base `BasePlotBlock`. They can be used as is or extended to create custom plots or features of Plotly that aren't (yet) handled by default. 
+Plots in Wagtail Plotly are a set of Wagtail StreamField blocks that share a common base `BasePlotBlock`. They can be used as is or extended to create custom plots or features of Plotly that aren't (yet) handled by default. 
 
 All of the blocks have a `plot_data` field for entering plot data (based on `wagtail.contrib.table_block`) and `build_data` method for extracting data from the table ready for plotting.
 
