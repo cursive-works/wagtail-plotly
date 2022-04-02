@@ -1,9 +1,9 @@
 0.0.3-alpha (xxxx.xx.xx) (unreleased)
 ------------------------
-* BREAKING CHANGES
 * Switched to configuration / customization via JSON instead of forms
 * Added auto-loading plot options from [app]/plotly/*.json files
 * Removed Palette and Layout models and their dependencies
+* Reset migrations
 * Removed redundant settings
 * Refactored Plot Blocks code
 * Updated documentation
