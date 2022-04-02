@@ -4,6 +4,7 @@ from collections import namedtuple
 
 from django.apps import apps
 
+PLOTLY_FIGURE_DIRECTORY = 'plotly'
 
 def to_float(value):
     try:
@@ -15,7 +16,7 @@ def to_float(value):
 def get_layout_dirs():
     paths = []
     for name, ac in apps.app_configs.items():
-        path = os.path.join(ac.path, 'plotly')
+        path = os.path.join(ac.path, PLOTLY_FIGURE_DIRECTORY)
         if os.path.isdir(path):
             yield path
 
