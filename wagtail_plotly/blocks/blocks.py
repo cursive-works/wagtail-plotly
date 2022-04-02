@@ -3,12 +3,12 @@ import plotly.graph_objects as go
 from wagtail.core import blocks
 
 from ..config import (
-    BAR_TABLE_OPTIONS,
-    CONTOUR_TABLE_OPTIONS,
-    DOT_TABLE_OPTIONS,
-    LINE_TABLE_OPTIONS,
-    PIE_TABLE_OPTIONS,
-    SCATTER_TABLE_OPTIONS,
+    DEFAULT_BAR_TABLE_OPTIONS,
+    DEFAULT_CONTOUR_TABLE_OPTIONS,
+    DEFAULT_DOT_TABLE_OPTIONS,
+    DEFAULT_LINE_TABLE_OPTIONS,
+    DEFAULT_PIE_TABLE_OPTIONS,
+    DEFAULT_SCATTER_TABLE_OPTIONS,
 )
 from .table import (
     BubblePlotDataBlock,
@@ -25,7 +25,7 @@ class BarChartBlock(BasePlotBlock):
     Base bar chart block
     """
     plot_data = PlotDataBlock(
-        table_options=BAR_TABLE_OPTIONS,
+        table_options=DEFAULT_BAR_TABLE_OPTIONS,
         help_text=(
             'Bar plot data with a set of common X values and multiple sets of Y values. '
             'First row contains Name(s) for legend.'
@@ -66,7 +66,7 @@ class ContourPlotBlock(BasePlotBlock):
     plot_class = go.Contour
 
     plot_data = PlotDataBlock(
-        table_options=CONTOUR_TABLE_OPTIONS,
+        table_options=DEFAULT_CONTOUR_TABLE_OPTIONS,
         help_text=(
             'Contour plot data with X and Y dimensions, with a grid of values representing Z'
         ),
@@ -158,7 +158,7 @@ class LinePlotBlock(BasePlotBlock):
     Base line plot with common x axis values
     """
     plot_data = PlotDataBlock(
-        table_options=LINE_TABLE_OPTIONS,
+        table_options=DEFAULT_LINE_TABLE_OPTIONS,
         help_text=(
             'Line plot data with a set of common X values and multiple sets of Y values. '
             'First row contains Name(s) for legend.'
@@ -193,7 +193,7 @@ class PieChartBlock(BasePlotBlock):
     yaxis_title = None
 
     plot_data = PlotDataBlock(
-        table_options=PIE_TABLE_OPTIONS,
+        table_options=DEFAULT_PIE_TABLE_OPTIONS,
         help_text=(
             'Pie chart data with a set of name and value columns.'
         ),
@@ -223,7 +223,7 @@ class ScatterPlotBlock(BasePlotBlock):
     Base scatter plot block
     """
     plot_data = PlotDataBlock(
-        table_options=SCATTER_TABLE_OPTIONS,
+        table_options=DEFAULT_SCATTER_TABLE_OPTIONS,
         help_text=(
             'Scatter plot data with multiple sets of X and Y values (X0, Y0), (X1, Y1) etc. '
             'First row contains Name(s) for legend.'
@@ -257,7 +257,7 @@ class DotPlotBlock(BasePlotBlock):
     Base dot plot with common y axis values
     """
     plot_data = PlotDataBlock(
-        table_options=DOT_TABLE_OPTIONS,
+        table_options=DEFAULT_DOT_TABLE_OPTIONS,
         help_text=(
             'Dot plot data with a set of common Y values and multiple sets of X values. '
             'First row contains Name(s) for legend.'
