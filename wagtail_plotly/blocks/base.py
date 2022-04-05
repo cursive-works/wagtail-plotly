@@ -1,12 +1,11 @@
 import json
 import plotly.graph_objects as go
 
-from django import forms
-from django.core.exceptions import ValidationError
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 
 from wagtail.core import blocks
+from wagtail_json_widget.blocks import JsonBlock
 
 from ..config import (
     DEFAULT_CONFIG_OPTIONS,
@@ -21,31 +20,6 @@ from ..utils import (
     get_trace, 
     get_layout_choices
 )
-
-from ..widgets import JSONWidget
-
-
-class JsonBlock(blocks.FieldBlock):
-    """
-    JSON field block
-    """
-    def __init__(self, required=True, help_text=None, max_length=None, min_length=None, validators=(), **kwargs):
-        self.field = forms.CharField(
-            widget=JSONWidget,
-            required=required,
-            help_text=help_text,
-            max_length=max_length,
-            min_length=min_length,
-            validators=validators,
-        )
-        super().__init__(**kwargs)
-
-    def clean(self, value):
-        try:
-            json.loads(value)
-        except json.decoder.JSONDecodeError as e:
-            raise ValidationError(f'Invalid JSON: {e}')
-        return super().clean(value)
 
 
 class BasePlotBlock(blocks.StructBlock):
@@ -156,6 +130,6 @@ class CustomPlotMixin(blocks.StructBlock):
 
     def get_custom_data(self, value):
         """
-        Return a dict of grafl data from a user ediable JSON block
+        Return a dict of the custom plotly data
         """
         return json.loads(value['custom'])

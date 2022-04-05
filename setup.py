@@ -11,6 +11,7 @@ with open(os.path.join(os.path.dirname(__file__), 'README.md')) as readme:
 install_requires = [
     "plotly>=4.14.3",
     "wagtail>=2.13",
+    "wagtail-json-widget>=0.0.1",
 ]
 
 setup(
