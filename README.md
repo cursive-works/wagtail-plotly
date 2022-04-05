@@ -19,6 +19,7 @@ Then add the following to your project's `INSTALLED_APPS`.
 ```
 'wagtail.contrib.table_block',
 'wagtail_plotly',
+'wagtail_json_widget',
 ```
 
 ## Usage overview
