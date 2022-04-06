@@ -121,7 +121,7 @@ class BasePlotBlock(blocks.StructBlock):
 
 class CustomPlotMixin(blocks.StructBlock):
  
-    custom = JsonBlock()
+    custom = JsonBlock(required=False)
 
     def update_figure(self, fig, value):
         ob = self.get_custom_data(value)
