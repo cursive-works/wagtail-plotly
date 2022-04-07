@@ -5,7 +5,7 @@ from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 
 from wagtail.core import blocks
-from wagtail_json_widget.blocks import JsonBlock
+from wagtail_json_widget.blocks import JSONBlock
 
 from ..config import (
     DEFAULT_CONFIG_OPTIONS,
@@ -121,7 +121,7 @@ class BasePlotBlock(blocks.StructBlock):
 
 class CustomPlotMixin(blocks.StructBlock):
  
-    custom = JsonBlock(required=False)
+    custom = JSONBlock(required=False)
 
     def update_figure(self, fig, value):
         ob = self.get_custom_data(value)
