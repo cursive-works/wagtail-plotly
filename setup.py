@@ -11,10 +11,8 @@ with open(os.path.join(os.path.dirname(__file__), 'README.md')) as readme:
 install_requires = [
     "plotly>=4.14.3",
     "wagtail>=2.13",
-    "wagtail-color-panel>=1.3.0",
-    "wagtail-generic-chooser>=0.3"
+    "wagtail-json-widget>=0.0.1",
 ]
-
 
 setup(
     name='wagtail_plotly',
@@ -30,14 +28,13 @@ setup(
     author_email='martin.swarbrick@cursive.works',
     keywords=['WAGTAIL', 'PLOTLY', 'STREAMFIELD', 'WAGTAIL_PLOTLY', 'WAGTAIL CMS'],
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
         'Framework :: Django',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',

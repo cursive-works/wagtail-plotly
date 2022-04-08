@@ -14,7 +14,7 @@ from wagtail.core.widget_adapters import WidgetAdapter
 
 
 from ..config import (
-    BUBBLE_TABLE_OPTIONS,
+    DEFAULT_BUBBLE_TABLE_OPTIONS,
 )
 
 
@@ -81,7 +81,7 @@ class BubblePlotDataBlock(blocks.StructBlock):
     group_name = blocks.CharBlock(help_text='Name of the bubble group')
 
     plot_data = PlotDataBlock(
-        table_options=BUBBLE_TABLE_OPTIONS,
+        table_options=DEFAULT_BUBBLE_TABLE_OPTIONS,
         help_text=(
             'Bubble plot data with Name, X, Y and Z values.'
         ),

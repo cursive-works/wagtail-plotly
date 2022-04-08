@@ -1,6 +1,7 @@
-# Wagtail-Plotly
+# Wagtail Plotly
 
-Create charts in Wagtail using Plotly. This is project is in Alpha, so expect breaking changes!
+This project aims to provide *content focused* management of [Plotly.py](https://github.com/plotly/plotly.py) 
+charts in [Wagtail CMS](https://wagtail.io) and to give developers and easy way customise and extend plots.
 
 ![Line plot](https://github.com/cursive-works/wagtail-plotly/blob/master/docs/img/lineplot.png)
 [Some more examples](https://github.com/cursive-works/wagtail-plotly/blob/master/docs/examples.md)
@@ -17,21 +18,34 @@ Then add the following to your project's `INSTALLED_APPS`.
 
 ```
 'wagtail.contrib.table_block',
-'generic_chooser',
-'wagtail_color_panel',
 'wagtail_plotly',
+'wagtail_json_widget',
 ```
 
-## Out of the box
+## Settings
 
-There are currently several plot blocks that are ready to use:
+#### `WAGTAIL_PLOTLY_INCLUDE_PLOTLYJS` 
+Default: `'https://cdn.plot.ly/plotly-1.58.4.min.js'`
+
+A url string providing the location of a Plotly JS libarary
+
+#### `DEFAULT_PLOTLY_JSON_DIRECTORY` 
+Default: `'plotly'`
+
+The name of the `app` directory in which to look for custom json plots. Wagtail Plotly will search all installed apps looking for a directory matching the `DEFAULT_PLOTLY_JSON_DIRECTORY` value and will attempt to load any `.json` files it contains. [See Customising](#Customising) for more information.  
+
+## Usage overview
+
+There are several plot blocks that you can use out of the box:
 
 * [BarChartBlock / LinePlotBlock](https://github.com/cursive-works/wagtail-plotly/blob/master/docs/bar_and_line.md)
 * [ContourPlotBlock / HeatmapPlotBlock](https://github.com/cursive-works/wagtail-plotly/blob/master/docs/contour_and_heatmap.md)
 * [PieChartBlock](https://github.com/cursive-works/wagtail-plotly/blob/master/docs/pie.md)
 * [ScatterPlotBlock](https://github.com/cursive-works/wagtail-plotly/blob/master/docs/scatter.md)
 
-Each plot block has a number of trace/layout fields appropriate to its type.
+Adding one of these blocks provides you with input fields to manage the content of your plot, primarily titles and data, and a layout/style option(s). There is one default option out-of-the-box and more can be added by developers via `.json` files using [Plotly's schema](https://plotly.com/python/reference/index/). [See Customising](#Customising)
+
+This app also provides versions of the above blocks that support case by case customisation via a json field in the CMS UI.
 
 ### Example use
 
@@ -40,7 +54,7 @@ Each plot block has a number of trace/layout fields appropriate to its type.
 ```python
 from wagtail.core import blocks
 
-from wagtail_plotly.blocks.plot import (
+from wagtail_plotly.blocks import (
     BarChartBlock,
     ContourPlotBlock,
     HeatmapPlotBlock,
@@ -84,56 +98,47 @@ Then in the page template:
 {% include_block page.body %}
 ```
 
-## Build your own
+## Customising
+Configuring `plotly` graphs *can* be complex because there are a lot of options available. `plotly` provide [Chart Studio](https://chart-studio.plotly.com) from which graphs and layouts can be made and exported as JSON data. 
 
-The plots in `wagtail-plotly` are based around a set of base block classes, that can be extended to create your own plots. The intention is to allow custom layouts and trace config whilst handling the data input. The base classes are:
+Wagtail Plotly is designed to consume a subset of this data with minimal effort by developers:
+Wagtail Plotly will look for directories named `plotly` (by default) in each installed app and any `.json` files therein are assumed to be configuration options that are presented to users as `Graph layout` options. In this way developers can provide managed plot configurations to end-users that override the default settings.
 
-* BaseBarChartBlock
-* BaseContourPlotBlock
-* BaseHeatmapPlotBlock
-* BaseLinePlotBlock
-* BasePieChartBlock
-* BaseScatterPlotBlock
+For example: `my_plot.json` might contain:
+```json
+{
+    "layout": {
+        "xaxis": {
+            "gridcolor": "#dddddd",
+            "mirror": true
+        },
+        "yaxis": {
+            "gridcolor": "#dddddd",
+            "mirror": true
+        },
+        "autosize": true,
+        "colorway": [
+            "#4c78a8",
+            "#f58518",
+            "#e45756",
+            "#72b7b2",
+            "#54a24b",
+            "#eeca3b",
+            "#b279a2",
+            "#ff9da6",
+            "#9d755d",
+            "#bab0ac"
+        ]
+    }
+}
+```
 
-Each base block class inherits from `BasePlotBlock`. All of the blocks have a `plot_data` field for entering plot data (based on `wagtail.contrib.table_block`) and `build_data` method for extracting data from the table ready for plotting.
+### Customising StreamField Blocks
+
+Plots in Wagtail Plotly are a set of Wagtail StreamField blocks that share a common base `BasePlotBlock`. They can be used as is or extended to create custom plots or features of Plotly that aren't (yet) handled by default. 
+
+All of the blocks have a `plot_data` field for entering plot data (based on `wagtail.contrib.table_block`) and `build_data` method for extracting data from the table ready for plotting.
 
 ### Creating new plot blocks
 
-New plot blocks can be created by inheriting from a base plot. The `get_trace_fields` and `get_layout_fields` methods can be used to pass any additional fields to the Plotly `update_traces` and `update_layout` methods respectively.
-
-**Note:** It's important that the field names are based on parameters that Plotly knows about, see https://plotly.com/python/reference/ for details.
-
-A basic bar chart block might look like this:
-
-```
-class MyBarChartBlock(BaseBarChartBlock):
-    orientation = blocks.ChoiceBlock(default='v', choices=[
-        ('v', 'Vertical'), ('h', 'Horizontal')
-    ])
-
-    barmode = blocks.ChoiceBlock(default='group', choices=[
-        ('group', 'Group'), ('stack', 'Stack'),
-    ])
-
-    def get_trace_fields(self):
-        return ['orientation']
-
-    def get_layout_fields(self):
-        return ['barmode']
-```
-
-## Admin interface
-
-`wagtail-plotly` is installed as a separate items in the Wagtail admin menu. It currently only has two options, Palettes and Layouts.
-
-### Palettes
-
-`Palettes` consist of a selection of colors that are used to draw the plots. Any number of palettes can be created. A user defined `Palette` can be selected in a `Layout` for the `colorway` field.
-
-### Layouts
-
-Layouts control the look, style and positioning of the `wagtail-plotly` plot elements. There are settings for controlling title layout, fonts, legends and margins. Not all of Plotly's layout options are covered, but this provides a simple way to add user defined layouts to your plot blocks using a `LayoutChooserBlock`.
-
-#### LayoutChooserBlock
-
-The `layout` is a special named field that can be added to a plot block using the `LayoutChooserBlock`, allowing the selection of user defined layouts.
+New plot blocks can be created in the usual way: subclassing from either`BasePlotBlock` or one of the above blocks.
