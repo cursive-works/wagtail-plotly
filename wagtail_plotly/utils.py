@@ -4,7 +4,8 @@ from collections import namedtuple
 
 from django.apps import apps
 
-PLOTLY_FIGURE_DIRECTORY = 'plotly'
+from .config import PLOTLY_FIGURE_DIRECTORY
+
 
 def to_float(value):
     try:

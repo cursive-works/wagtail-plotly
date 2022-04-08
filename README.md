@@ -22,6 +22,18 @@ Then add the following to your project's `INSTALLED_APPS`.
 'wagtail_json_widget',
 ```
 
+## Settings
+
+#### `WAGTAIL_PLOTLY_INCLUDE_PLOTLYJS` 
+Default: `'https://cdn.plot.ly/plotly-1.58.4.min.js'`
+
+A url string providing the location of a Plotly JS libarary
+
+#### `DEFAULT_PLOTLY_JSON_DIRECTORY` 
+Default: `'plotly'`
+
+The name of the `app` directory in which to look for custom json plots. Wagtail Plotly will search all installed apps looking for a directory matching the `DEFAULT_PLOTLY_JSON_DIRECTORY` value and will attempt to load any `.json` files it contains. [See Customising](#Customising) for more information.  
+
 ## Usage overview
 
 There are several plot blocks that you can use out of the box:
@@ -90,7 +102,7 @@ Then in the page template:
 Configuring `plotly` graphs *can* be complex because there are a lot of options available. `plotly` provide [Chart Studio](https://chart-studio.plotly.com) from which graphs and layouts can be made and exported as JSON data. 
 
 Wagtail Plotly is designed to consume a subset of this data with minimal effort by developers:
-Wagtail Plotly will look for directories named `plotly` in each installed app and any `.json` files therein are assumed to be configuration options that are presented to users as `Graph layout` options. In this way developers can provide managed plot configurations to end-users that override the default settings.
+Wagtail Plotly will look for directories named `plotly` (by default) in each installed app and any `.json` files therein are assumed to be configuration options that are presented to users as `Graph layout` options. In this way developers can provide managed plot configurations to end-users that override the default settings.
 
 For example: `my_plot.json` might contain:
 ```json

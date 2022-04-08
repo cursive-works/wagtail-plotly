@@ -1,4 +1,4 @@
-0.0.3-alpha (xxxx.xx.xx) (unreleased)
+0.0.3 (2022-04-08)
 ------------------------
 * Switched to configuration / customization via JSON instead of forms
 * Added auto-loading plot options from [app]/plotly/*.json files

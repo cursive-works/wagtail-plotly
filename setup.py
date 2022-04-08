@@ -28,7 +28,7 @@ setup(
     author_email='martin.swarbrick@cursive.works',
     keywords=['WAGTAIL', 'PLOTLY', 'STREAMFIELD', 'WAGTAIL_PLOTLY', 'WAGTAIL CMS'],
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
         'Framework :: Django',
         'Intended Audience :: Developers',
