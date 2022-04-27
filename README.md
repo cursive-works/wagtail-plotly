@@ -1,6 +1,6 @@
 # Wagtail Plotly
 
-Provides tabular data input and visualisation tools for admin users in Wagtail. Developers manage plot availablity and styling in code with an option to allow users to apply further styling via JSON via admin. Built on [Plotly.py](https://github.com/plotly/plotly.py), it should be possible to hoist any of Plotlys supported visualisations into Wagtail. 
+Provides tabular data input for interactive visualisations in Wagtail. Developers manage plot availablity and styling in code with an option to allow users to apply further styling via JSON via admin. It uses [Plotly.py](https://github.com/plotly/plotly.py) and so it should be possible to hoist any of Plotlys supported visualisations into Wagtail easily. 
 
 <img src="https://github.com/cursive-works/wagtail-plotly/blob/master/docs/img/lineplot.png" width="400" align="left">
 <img src="https://github.com/cursive-works/wagtail-plotly/blob/master/docs/img/contourplot.png" width="400">
