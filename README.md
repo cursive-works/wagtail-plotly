@@ -4,6 +4,7 @@ This project aims to provide *content focused* management of [Plotly.py](https:/
 charts in [Wagtail CMS](https://wagtail.io) and to give developers and easy way customise and extend plots.
 
 ![Line plot](https://github.com/cursive-works/wagtail-plotly/blob/master/docs/img/lineplot.png)
+![](https://github.com/cursive-works/wagtail-plotly/blob/master/docs/img/contourplot.png)
 [Some more examples](https://github.com/cursive-works/wagtail-plotly/blob/master/docs/examples.md)
 
 ## Installation
