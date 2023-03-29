@@ -17,13 +17,16 @@ from .table import (
 
 from .base import BasePlotBlock, CustomPlotMixin
 
-from ..utils import to_float
+from ..utils import to_float, get_orientation_choices
 
 
 class BarChartBlock(BasePlotBlock):
     """
     Base bar chart block
     """
+    orientation = blocks.ChoiceBlock(required=True, default='v',
+        choices=get_orientation_choices)
+
     plot_data = PlotDataBlock(
         table_options=DEFAULT_BAR_TABLE_OPTIONS,
         help_text=(
@@ -41,6 +44,9 @@ class BarChartBlock(BasePlotBlock):
         # Get the data in column format from the table
         columns = self.get_columns(value['plot_data'])
 
+        # Get plot orientation, either horizontal or vertical
+        orientation = value.get('orientation', 'v')
+
         if len(columns) >= 2:
             # Pop the first column for common x values
             x_vals = columns.pop(0)[1:]
@@ -50,11 +56,11 @@ class BarChartBlock(BasePlotBlock):
                 y = column[1:]
 
                 # Handle horizontal bars by swapping x and y
-                if value.get('orientation') == 'h':
+                if orientation == 'h':
                     x, y = y, x
 
                 data.append(
-                    go.Bar(name=column[0], x=x, y=y)
+                    go.Bar(name=column[0], x=x, y=y, orientation=orientation)
                 )
         return data
 

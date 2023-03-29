@@ -66,3 +66,5 @@ def get_layout_choices():
         choices.append((layout.name, layout.name))
     return choices
 
+def get_orientation_choices():
+    return [('v', 'Vertical'), ('h', 'Horizontal')]
