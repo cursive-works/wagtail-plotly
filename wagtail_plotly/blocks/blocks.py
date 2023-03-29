@@ -1,5 +1,7 @@
 import plotly.graph_objects as go
 
+from django.utils.translation import gettext_lazy as _
+
 from wagtail.core import blocks
 
 from ..config import (
@@ -24,13 +26,14 @@ class BarChartBlock(BasePlotBlock):
     """
     Base bar chart block
     """
-    orientation = blocks.ChoiceBlock(required=True, default='v',
-        choices=get_orientation_choices)
+    orientation = blocks.ChoiceBlock(label=_('Orientation'), required=True,
+        default='v', choices=get_orientation_choices)
 
     plot_data = PlotDataBlock(
         table_options=DEFAULT_BAR_TABLE_OPTIONS,
-        help_text=(
-            'Bar plot data with a set of common X values and multiple sets of Y values. '
+        help_text=_(
+            'Bar plot data with a set of common X values' +
+            ' and multiple sets of Y values. ' +
             'First row contains Name(s) for legend.'
         ),
     )
@@ -73,8 +76,9 @@ class ContourPlotBlock(BasePlotBlock):
 
     plot_data = PlotDataBlock(
         table_options=DEFAULT_CONTOUR_TABLE_OPTIONS,
-        help_text=(
-            'Contour plot data with X and Y dimensions, with a grid of values representing Z'
+        help_text=_(
+            'Contour plot data with X and Y dimensions,' +
+            ' with a grid of values representing Z'
         ),
     )
 
@@ -165,9 +169,9 @@ class LinePlotBlock(BasePlotBlock):
     """
     plot_data = PlotDataBlock(
         table_options=DEFAULT_LINE_TABLE_OPTIONS,
-        help_text=(
-            'Line plot data with a set of common X values and multiple sets of Y values. '
-            'First row contains Name(s) for legend.'
+        help_text=_(
+            'Line plot data with a set of common X values and multiple sets' +
+            ' of Y values. First row contains Name(s) for legend.'
         ),
     )
 
@@ -200,9 +204,7 @@ class PieChartBlock(BasePlotBlock):
 
     plot_data = PlotDataBlock(
         table_options=DEFAULT_PIE_TABLE_OPTIONS,
-        help_text=(
-            'Pie chart data with a set of name and value columns.'
-        ),
+        help_text=_('Pie chart data with a set of name and value columns.'),
     )
 
     def build_data(self, value):
@@ -230,9 +232,9 @@ class ScatterPlotBlock(BasePlotBlock):
     """
     plot_data = PlotDataBlock(
         table_options=DEFAULT_SCATTER_TABLE_OPTIONS,
-        help_text=(
-            'Scatter plot data with multiple sets of X and Y values (X0, Y0), (X1, Y1) etc. '
-            'First row contains Name(s) for legend.'
+        help_text=_(
+            'Scatter plot data with multiple sets of X and Y values' +
+            ' (X0, Y0), (X1, Y1) etc. First row contains Name(s) for legend.'
         ),
     )
 
@@ -264,9 +266,9 @@ class DotPlotBlock(BasePlotBlock):
     """
     plot_data = PlotDataBlock(
         table_options=DEFAULT_DOT_TABLE_OPTIONS,
-        help_text=(
-            'Dot plot data with a set of common Y values and multiple sets of X values. '
-            'First row contains Name(s) for legend.'
+        help_text=_(
+            'Dot plot data with a set of common Y values and multiple sets' +
+            ' of X values. First row contains Name(s) for legend.'
         ),
     )
 
