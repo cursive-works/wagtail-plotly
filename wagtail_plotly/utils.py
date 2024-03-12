@@ -3,6 +3,7 @@ import os
 from collections import namedtuple
 
 from django.apps import apps
+from django.utils.translation import gettext_lazy as _
 
 from .config import PLOTLY_FIGURE_DIRECTORY
 
@@ -28,7 +29,7 @@ def get_layout_data(dir):
         path = os.path.join(dir, file)
         with open(path) as f:
             yield file, json.load(f)
-    
+
 Layout = namedtuple("Layout", "name layout")
 
 def get_layouts():
@@ -66,3 +67,5 @@ def get_layout_choices():
         choices.append((layout.name, layout.name))
     return choices
 
+def get_orientation_choices():
+    return [('v', _('Vertical')), ('h', _('Horizontal'))]

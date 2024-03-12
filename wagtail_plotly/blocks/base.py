@@ -3,8 +3,9 @@ import plotly.graph_objects as go
 
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
+from django.utils.translation import gettext_lazy as _
 
-from wagtail.core import blocks
+from wagtail import blocks
 from wagtail_json_widget.blocks import JSONBlock
 
 from ..config import (
@@ -15,19 +16,20 @@ from ..config import (
 )
 
 from ..utils import (
-    get_layout, 
-    get_config, 
-    get_trace, 
+    get_layout,
+    get_config,
+    get_trace,
     get_layout_choices
 )
 
 
 class BasePlotBlock(blocks.StructBlock):
 
-    title = blocks.CharBlock(required=False)
-    xaxis_title = blocks.CharBlock(required=False)
-    yaxis_title = blocks.CharBlock(required=False)
-    graph_layout = blocks.ChoiceBlock(required=False, choices=get_layout_choices)
+    title = blocks.CharBlock(label=_('Title'), required=False)
+    xaxis_title = blocks.CharBlock(label=_('X axis title'), required=False)
+    yaxis_title = blocks.CharBlock(label=_('Y axis title'), required=False)
+    graph_layout = blocks.ChoiceBlock(
+        label=_('Graph layout'), required=False, choices=get_layout_choices)
 
     def get_rows(self, plot_data):
         """

@@ -1,16 +1,16 @@
 from django import forms
 from django.template.loader import render_to_string
 from django.utils.functional import cached_property
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 
 from wagtail.admin.staticfiles import versioned_static
 from wagtail.contrib.table_block.blocks import (
     TableBlock,
     TableInput,
 )
-from wagtail.core import blocks
-from wagtail.core.telepath import register
-from wagtail.core.widget_adapters import WidgetAdapter
+from wagtail import blocks
+from wagtail.telepath import register
+from wagtail.widget_adapters import WidgetAdapter
 
 
 from ..config import (
@@ -78,11 +78,11 @@ class BubblePlotDataBlock(blocks.StructBlock):
     """
     Bubble plot data block
     """
-    group_name = blocks.CharBlock(help_text='Name of the bubble group')
+    group_name = blocks.CharBlock(help_text=_('Name of the bubble group'))
 
     plot_data = PlotDataBlock(
         table_options=DEFAULT_BUBBLE_TABLE_OPTIONS,
         help_text=(
-            'Bubble plot data with Name, X, Y and Z values.'
+            _('Bubble plot data with Name, X, Y and Z values.')
         ),
     )

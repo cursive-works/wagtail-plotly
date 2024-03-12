@@ -1,0 +1,109 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-03-29 18:10+0100\n"
+"PO-Revision-Date: 2023-03-29 18:14+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
+"1 : 2;\n"
+
+#: apps.py:8
+msgid "Wagtail Plotly"
+msgstr "Wagtail Plotly"
+
+#: blocks/base.py:28
+msgid "Title"
+msgstr "Título"
+
+#: blocks/base.py:29
+msgid "X axis title"
+msgstr "Título eje X"
+
+#: blocks/base.py:30
+msgid "Y axis title"
+msgstr "Título eje Y"
+
+#: blocks/base.py:32
+msgid "Graph layout"
+msgstr "Disposición de la gráfica"
+
+#: blocks/blocks.py:29
+msgid "Orientation"
+msgstr "Orientación"
+
+#: blocks/blocks.py:35
+msgid ""
+"Bar plot data with a set of common X values and multiple sets of Y values. "
+"First row contains Name(s) for legend."
+msgstr ""
+"Gráfico de barras de datos con un conjunto de valores X comunes y múltiples "
+"conjuntos de valores Y. La primera fila contiene el nombre(s) de la leyenda."
+
+#: blocks/blocks.py:80
+msgid ""
+"Contour plot data with X and Y dimensions, with a grid of values "
+"representing Z"
+msgstr ""
+"Gráfico de contorno de datos con dimensiones X e Y, con una cuadrícula de "
+"valores que representan Z"
+
+#: blocks/blocks.py:173
+msgid ""
+"Line plot data with a set of common X values and multiple sets of Y values. "
+"First row contains Name(s) for legend."
+msgstr ""
+"Gráfico de barras de datos con un conjunto de valores X comunes y múltiples "
+"conjuntos de valores Y. La primera fila contiene el nombre(s) de la leyenda."
+
+#: blocks/blocks.py:207
+msgid "Pie chart data with a set of name and value columns."
+msgstr ""
+"Datos del gráfico circular con un conjunto de columnas de nombre y valor."
+
+#: blocks/blocks.py:236
+msgid ""
+"Scatter plot data with multiple sets of X and Y values (X0, Y0), (X1, Y1) "
+"etc. First row contains Name(s) for legend."
+msgstr ""
+"Datos de gráfico de dispersión con múltiples conjuntos de valores X e Y "
+"(X0, Y0), (X1, Y1), etc. La primera fila contiene el nombre(s) de la "
+"leyenda."
+
+#: blocks/blocks.py:270
+msgid ""
+"Dot plot data with a set of common Y values and multiple sets of X values. "
+"First row contains Name(s) for legend."
+msgstr ""
+"Gráfico de barras de datos con un conjunto de valores X comunes y múltiples "
+"conjuntos de valores Y. La primera fila contiene el nombre(s) de la leyenda."
+
+#: blocks/table.py:42
+msgid "Table"
+msgstr "Tabla"
+
+#: blocks/table.py:81
+msgid "Name of the bubble group"
+msgstr "Nombre del grupo de burbuja"
+
+#: blocks/table.py:86
+msgid "Bubble plot data with Name, X, Y and Z values."
+msgstr "Datos del gráfico de burbujas con los valores nombre, X, Y y Z."
+
+#: utils.py:71
+msgid "Vertical"
+msgstr "Vertical"
+
+#: utils.py:71
+msgid "Horizontal"
+msgstr "Horizontal"
