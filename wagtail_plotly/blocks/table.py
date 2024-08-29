@@ -8,9 +8,9 @@ from wagtail.contrib.table_block.blocks import (
     TableBlock,
     TableInput,
 )
-from wagtail.core import blocks
-from wagtail.core.telepath import register
-from wagtail.core.widget_adapters import WidgetAdapter
+from wagtail import blocks
+from wagtail.telepath import register
+from wagtail.widget_adapters import WidgetAdapter
 
 
 from ..config import (

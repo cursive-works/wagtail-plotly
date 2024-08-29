@@ -1,6 +1,6 @@
 import plotly.graph_objects as go
 
-from wagtail.core import blocks
+from wagtail import blocks
 
 from ..config import (
     DEFAULT_BAR_TABLE_OPTIONS,

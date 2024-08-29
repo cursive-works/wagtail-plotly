@@ -4,7 +4,7 @@ import plotly.graph_objects as go
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 
-from wagtail.core import blocks
+from wagtail import blocks
 from wagtail_json_widget.blocks import JSONBlock
 
 from ..config import (

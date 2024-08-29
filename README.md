@@ -1,6 +1,6 @@
 # Wagtail Plotly
 
-Provides tabular data input for interactive visualisations in Wagtail. Developers manage plot availablity and styling in code with an option to allow users to apply further styling via JSON via admin. It uses [Plotly.py](https://github.com/plotly/plotly.py) and so it should be possible to hoist any of Plotlys supported visualisations into Wagtail easily. 
+Provides tabular data input for interactive visualisations in Wagtail. Developers manage plot availablity and styling in code with an option to allow users to apply further styling via JSON via admin. It uses [Plotly.py](https://github.com/plotly/plotly.py) and so it should be possible to hoist any of Plotlys supported visualisations into Wagtail easily.
 
 <img src="https://github.com/cursive-works/wagtail-plotly/blob/master/docs/img/lineplot.png" width="400" align="left">
 <img src="https://github.com/cursive-works/wagtail-plotly/blob/master/docs/img/contourplot.png" width="400">
@@ -25,15 +25,15 @@ Then add the following to your project's `INSTALLED_APPS`.
 
 ## Settings
 
-#### `WAGTAIL_PLOTLY_INCLUDE_PLOTLYJS` 
+#### `WAGTAIL_PLOTLY_INCLUDE_PLOTLYJS`
 Default: `'https://cdn.plot.ly/plotly-1.58.4.min.js'`
 
 A url string providing the location of a Plotly JS libarary
 
-#### `DEFAULT_PLOTLY_JSON_DIRECTORY` 
+#### `DEFAULT_PLOTLY_JSON_DIRECTORY`
 Default: `'plotly'`
 
-The name of the `app` directory in which to look for custom json plots. Wagtail Plotly will search all installed apps looking for a directory matching the `DEFAULT_PLOTLY_JSON_DIRECTORY` value and will attempt to load any `.json` files it contains. [See Customising](#Customising) for more information.  
+The name of the `app` directory in which to look for custom json plots. Wagtail Plotly will search all installed apps looking for a directory matching the `DEFAULT_PLOTLY_JSON_DIRECTORY` value and will attempt to load any `.json` files it contains. [See Customising](#Customising) for more information.
 
 ## Usage overview
 
@@ -53,7 +53,7 @@ This app also provides versions of the above blocks that support case by case cu
  One way of using it is to create a `StreamBlock`:
 
 ```python
-from wagtail.core import blocks
+from wagtail import blocks
 
 from wagtail_plotly.blocks import (
     BarChartBlock,
@@ -77,8 +77,8 @@ Add the `StreamBlock` to a `StreamField` on a Wagtail page:
 
 ```python
 from wagtail.admin.edit_handlers import StreamFieldPanel
-from wagtail.core.fields import StreamField
-from wagtail.core.models import Page
+from wagtail.fields import StreamField
+from wagtail.models import Page
 
 from .blocks import MyStreamBlock
 
@@ -100,7 +100,7 @@ Then in the page template:
 ```
 
 ## Customising
-Configuring `plotly` graphs *can* be complex because there are a lot of options available. `plotly` provide [Chart Studio](https://chart-studio.plotly.com) from which graphs and layouts can be made and exported as JSON data. 
+Configuring `plotly` graphs *can* be complex because there are a lot of options available. `plotly` provide [Chart Studio](https://chart-studio.plotly.com) from which graphs and layouts can be made and exported as JSON data.
 
 Wagtail Plotly is designed to consume a subset of this data with minimal effort by developers:
 Wagtail Plotly will look for directories named `plotly` (by default) in each installed app and any `.json` files therein are assumed to be configuration options that are presented to users as `Graph layout` options. In this way developers can provide managed plot configurations to end-users that override the default settings.
@@ -136,7 +136,7 @@ For example: `my_plot.json` might contain:
 
 ### Customising StreamField Blocks
 
-Plots in Wagtail Plotly are a set of Wagtail StreamField blocks that share a common base `BasePlotBlock`. They can be used as is or extended to create custom plots or features of Plotly that aren't (yet) handled by default. 
+Plots in Wagtail Plotly are a set of Wagtail StreamField blocks that share a common base `BasePlotBlock`. They can be used as is or extended to create custom plots or features of Plotly that aren't (yet) handled by default.
 
 All of the blocks have a `plot_data` field for entering plot data (based on `wagtail.contrib.table_block`) and `build_data` method for extracting data from the table ready for plotting.
 
