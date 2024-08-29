@@ -1,3 +1,8 @@
+0.0.4 (2024-08-29)
+------------------
+
+* Removed core from wagtail imports
+
 0.0.3 (2022-04-08)
 ------------------------
 * Switched to configuration / customization via JSON instead of forms
